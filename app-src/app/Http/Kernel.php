@@ -14,7 +14,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \App\Http\Middleware\AllowOptionOrGetRequestToApi::class,
+        \App\Http\Middleware\ApiAllowOptionOrGetRequest::class,
+        \App\Http\Middleware\ApiForceJsonResponse::class,
         \App\Http\Middleware\TrustProxies::class,
         \App\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
