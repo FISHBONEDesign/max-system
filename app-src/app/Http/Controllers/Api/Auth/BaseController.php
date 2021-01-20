@@ -18,7 +18,7 @@ class BaseController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $uset = Auth::user();
             $token = $uset->createToken(config('app.name'))->accessToken;
-            return response()->json(['status' => 'success', 'data' => ['token' => $token]], 200);
+            return response()->json(['status' => 'success', 'message' => ['token' => $token]], 200);
         } else {
             return response()->json(['status' => 'failure', 'message' => 'Unauthenticated.'], 401);
         }
