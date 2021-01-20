@@ -5,7 +5,7 @@
 
     RewriteEngine On
 
-    RewriteBase /my-laravel-lab
+    RewriteBase /max-system
     RewriteCond $0 ^APP-SRC [NC]
     RewriteRule .* 404 [L]
 
