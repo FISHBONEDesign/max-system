@@ -33,7 +33,7 @@ class BaseController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'password_c' => ['required', 'string', 'same:password']
+            'password_c' => ['nullable', 'string', 'same:password']
         ]);
 
         if ($validated->fails()) {
