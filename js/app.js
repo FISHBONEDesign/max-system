@@ -37316,6 +37316,8 @@ if (typeof Inited === 'undefined') Inited = false;
 
 if (Inited === false) {
   init_window_function();
+  init_counter++;
+  console.log("inited ".concat(init_counter, " times."));
 }
 
 /***/ }),
@@ -37340,9 +37342,6 @@ window.init_window_function = function () {
     window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
     __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
-
-    init_counter++;
-    console.log("inited ".concat(init_counter, " times."));
   } catch (e) {}
 };
 /**
