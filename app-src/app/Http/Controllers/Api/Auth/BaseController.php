@@ -18,9 +18,15 @@ class BaseController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $uset = Auth::user();
             $token = $uset->createToken(config('app.name'))->accessToken;
-            return response()->json(['status' => 'success', 'message' => ['token' => $token]], 200);
+            return response()->json([
+                'status' => 'success',
+                'message' => ['token' => $token]
+            ], 200);
         } else {
-            return response()->json(['status' => 'failure', 'message' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'status' => 'failure',
+                'message' => ['error' => 'Unauthenticated.']
+            ], 401);
         }
     }
 
@@ -33,11 +39,14 @@ class BaseController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'password_c' => ['required', 'string', 'same:password']
+            'password_c' => ['nullable', 'string', 'same:password']
         ]);
 
         if ($validated->fails()) {
-            return response()->json(['status' => 'failure', 'message' => ['errors' => $validated->errors()]], 400);
+            return response()->json([
+                'status' => 'failure',
+                'message' => ['errors' => $validated->errors()]
+            ], 400);
         }
 
         $data = $request->all();
