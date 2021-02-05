@@ -12,8 +12,6 @@ window.init_window_function = () => {
         window.$ = window.jQuery = require('jquery');
 
         require('bootstrap');
-        init_counter++;
-        console.log(`inited ${init_counter} times.`);
     } catch (e) { }
 };
 
