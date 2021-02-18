@@ -8,6 +8,6 @@ class FirmwareController extends Controller
 {
     public function index(Request $request)
     {
-        return redirect()->back();
+        return request()->all();
     }
 }

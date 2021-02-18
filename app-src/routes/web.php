@@ -48,7 +48,7 @@ Route::prefix('admin')->group(function () {
 
         Route::name('manage')->resource('devices', 'DeviceController');
 
-        Route::get('/firmwares', 'FirmwareController@index')->name('manage.firmware');
+        Route::get('/firmwares', 'FirmwareController@index')->name('manage.firmwares');
     });
 });
 
