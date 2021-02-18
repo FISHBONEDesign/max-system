@@ -2,16 +2,7 @@
 
 @section('content')
     <div class="mb-2">
-        <a href="{{ route('admin.manage.device.create') }}" class="btn btn-primary">New Device</a>
-        <button type="button" class="btn btn-secondary">Secondary</button>
-        <button type="button" class="btn btn-success">Success</button>
-        <button type="button" class="btn btn-danger">Danger</button>
-        <button type="button" class="btn btn-warning">Warning</button>
-        <button type="button" class="btn btn-info">Info</button>
-        <button type="button" class="btn btn-light">Light</button>
-        <button type="button" class="btn btn-dark">Dark</button>
-
-        <button type="button" class="btn btn-link">Link</button>
+        <a href="{{ route('admin.manage.devices.create') }}" class="btn btn-primary">New Device</a>
     </div>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -33,16 +24,108 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
-            all devices
+            <ul class="list-group">
+                @forelse ($devices as $index => $device)
+                    <li class="list-group-item">
+                        <span class="badge-pill">#{{ $index }}</span>
+                        {{ $device->name }}
+                        <span class="badge-pill">
+                            <a href="{{ route('admin.manage.devices.edit', $device->id) }}" class="btn text-success">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button type="button" class="btn text-danger"
+                                onclick="event.preventDefault();document.getElementById('delete-device-{{ $device->id }}').submit();console.log();">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <form id="delete-device-{{ $device->id }}" method="post"
+                                action="{{ route('admin.manage.devices.destroy', $device->id) }}">
+                                @csrf
+                                @method('delete')
+                            </form>
+                        </span>
+                    </li>
+                @empty
+                    <li class="list-group-item">no any device found.</li>
+                @endforelse
+            </ul>
         </div>
         <div class="tab-pane fade" id="first-layer" role="tabpanel" aria-labelledby="first-tab">
-            first-layer devices
+            <ul class="list-group">
+                @forelse ($devices->where('level', 'first') as $index => $device)
+                    <li class="list-group-item">
+                        <span class="badge-pill">#{{ $index }}</span>
+                        {{ $device->name }}
+                        <span class="badge-pill">
+                            <a href="{{ route('admin.manage.devices.edit', $device->id) }}" class="btn text-success">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button type="button" class="btn text-danger"
+                                onclick="event.preventDefault();document.getElementById('delete-device-{{ $device->id }}').submit();console.log();">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <form id="delete-device-{{ $device->id }}" method="post"
+                                action="{{ route('admin.manage.devices.destroy', $device->id) }}">
+                                @csrf
+                                @method('delete')
+                            </form>
+                        </span>
+                    </li>
+                @empty
+                    <li class="list-group-item">no any device found.</li>
+                @endforelse
+            </ul>
         </div>
         <div class="tab-pane fade" id="second-layer" role="tabpanel" aria-labelledby="second-tab">
-            second-layer devices
+            <ul class="list-group">
+                @forelse ($devices->where('level', 'second') as $index => $device)
+                    <li class="list-group-item">
+                        <span class="badge-pill">#{{ $index }}</span>
+                        {{ $device->name }}
+                        <span class="badge-pill">
+                            <a href="{{ route('admin.manage.devices.edit', $device->id) }}" class="btn text-success">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button type="button" class="btn text-danger"
+                                onclick="event.preventDefault();document.getElementById('delete-device-{{ $device->id }}').submit();console.log();">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <form id="delete-device-{{ $device->id }}" method="post"
+                                action="{{ route('admin.manage.devices.destroy', $device->id) }}">
+                                @csrf
+                                @method('delete')
+                            </form>
+                        </span>
+                    </li>
+                @empty
+                    <li class="list-group-item">no any device found.</li>
+                @endforelse
+            </ul>
         </div>
         <div class="tab-pane fade" id="third-layer" role="tabpanel" aria-labelledby="third-tab">
-            third-layer devices
+            <ul class="list-group">
+                @forelse ($devices->where('level', 'third') as $index => $device)
+                    <li class="list-group-item">
+                        <span class="badge-pill">#{{ $index }}</span>
+                        {{ $device->name }}
+                        <span class="badge-pill">
+                            <a href="{{ route('admin.manage.devices.edit', $device->id) }}" class="btn text-success">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button type="button" class="btn text-danger"
+                                onclick="event.preventDefault();document.getElementById('delete-device-{{ $device->id }}').submit();console.log();">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <form id="delete-device-{{ $device->id }}" method="post"
+                                action="{{ route('admin.manage.devices.destroy', $device->id) }}">
+                                @csrf
+                                @method('delete')
+                            </form>
+                        </span>
+                    </li>
+                @empty
+                    <li class="list-group-item">no any device found.</li>
+                @endforelse
+            </ul>
         </div>
     </div>
 @endsection
