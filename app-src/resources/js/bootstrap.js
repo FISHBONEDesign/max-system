@@ -12,6 +12,7 @@ window.init_window_function = () => {
         window.$ = window.jQuery = require('jquery');
 
         require('bootstrap');
+        require('./sidebar');
     } catch (e) { }
 };
 

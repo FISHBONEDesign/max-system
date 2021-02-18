@@ -37342,6 +37342,8 @@ window.init_window_function = function () {
     window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
     __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
+
+    __webpack_require__(/*! ./sidebar */ "./resources/js/sidebar.js");
   } catch (e) {}
 };
 /**
@@ -37366,6 +37368,20 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/sidebar.js":
+/*!*********************************!*\
+  !*** ./resources/js/sidebar.js ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).on('click', '.menu-toggle', function (e) {
+  e.preventDefault();
+  $(".wrapper").toggleClass("toggled");
+});
 
 /***/ }),
 

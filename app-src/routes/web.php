@@ -11,6 +11,8 @@
 |
 */
 
+Auth::routes();
+
 Route::prefix('admin')->group(function () {
 
     Route::name('auth.admin.')->namespace('AuthAdmin')->group(function () {
