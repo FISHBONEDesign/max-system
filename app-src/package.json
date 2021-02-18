@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.2",
         "autoprefixer": "^10.2.4",
         "postcss": "^8.2.4",
         "tailwindcss": "^2.0.2",
