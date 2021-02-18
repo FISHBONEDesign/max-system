@@ -46,7 +46,12 @@ Route::prefix('admin')->group(function () {
             return view('adminhome');
         })->name('home');
 
-        Route::get('/devices', 'DeviceController@index')->name('manage.device');
+        Route::prefix('/devices')->name('manage.device.')->group(function () {
+            Route::get('/', 'DeviceController@index')->name('index');
+            Route::get('/create', 'DeviceController@create')->name('create');
+        });
+
+        Route::get('/firmwares', 'FirmwareController@index')->name('manage.firmware');
     });
 });
 
