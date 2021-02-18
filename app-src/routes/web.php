@@ -11,6 +11,8 @@
 |
 */
 
+Auth::routes();
+
 Route::prefix('admin')->group(function () {
 
     Route::name('auth.admin.')->namespace('AuthAdmin')->group(function () {
@@ -43,6 +45,10 @@ Route::prefix('admin')->group(function () {
         Route::get('/', function () {
             return view('adminhome');
         })->name('home');
+
+        Route::name('manage')->resource('devices', 'DeviceController');
+
+        Route::get('/firmwares', 'FirmwareController@index')->name('manage.firmware');
     });
 });
 
