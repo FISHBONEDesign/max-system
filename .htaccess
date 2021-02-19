@@ -6,7 +6,7 @@
     RewriteEngine On
 
     RewriteBase /max-system
-    RewriteCond $0 ^APP-SRC [NC]
+    RewriteCond $0 ^(APP-SRC|uploads) [NC]
     RewriteRule .* 404 [L]
 
     # Handle Authorization Header
