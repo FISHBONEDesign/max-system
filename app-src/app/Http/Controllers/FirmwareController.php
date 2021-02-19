@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Device;
+use App\Firmware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,15 +28,19 @@ class FirmwareController extends Controller
     public function store(Device $device)
     {
         request()->validate([
-            'version' => 'required',
+            'version' => 'required|unique:firmwares',
             'checksum' => 'required|file',
             'firmware' => 'required|file'
         ]);
-        // $checksum = request()->checksum->store('test', 'public');
-        // $checksum = 'test/dcwVTroxa3DvLnWrodyMZqVvw4svAWegbEqihquE.txt';
-        // $checksum_url = Storage::disk('public')->url($checksum);
-        // $checksum_url = str_replace(env('APP_URL'), url('/'), $checksum_url); // directly access
-        // $download = Storage::disk('public')->download($checksum, 'checksum'); // directly download
-        // return $checksum_url;
+        $driver = 'public';
+        $storage_path  = 'firmwares/' . $device->name . '/' . request()->version;
+        $checksum = request()->checksum->store($storage_path, $driver);
+        $firmware = request()->firmware->store($storage_path, $driver);
+        $firmware_obj = $device->firmwares()->create([
+            'version' => request()->version,
+            'checksum' => $checksum,
+            'path' => $firmware
+        ]);
+        return redirect()->route('admin.manage.firmwares.list', $device);
     }
 }

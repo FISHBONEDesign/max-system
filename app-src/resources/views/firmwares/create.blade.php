@@ -4,44 +4,46 @@
     <div class="card">
         <div class="card-header">Create New Firmware</div>
         <div class="card-body">
-            <form method="post" action="{{ route('admin.manage.devices.store') }}">
+            <form method="post" action="{{ route('admin.manage.firmwares.store', $device) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group row">
-                    <label for="firmware-name" class="col-sm-2 col-form-label">Device Name</label>
+                    <label for="firmware-version" class="col-sm-2 col-form-label">Version</label>
                     <div class="col-sm-10">
-                        <input id="firmware-name" name="name" value="{{ old('name') }}" type="text"
-                            class="form-control @error('name') border-danger @enderror">
-                        @error('name')
-                            <small id="firmware-name-error" class="form-text text-danger">{{ $message }}</small>
+                        <input id="firmware-version" name="version" value="{{ old('version') }}" type="text"
+                            class="form-control @error('version') border-danger @enderror">
+                        @error('version')
+                            <small id="firmware-version-error" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
-                <fieldset class="form-group row">
-                    <legend class="col-form-label col-sm-2 float-sm-left pt-0">Device Level</legend>
-                    <div class="col-sm-10 @error('level') border border-danger @enderror">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="level" id="level-1-radio" value="first">
-                            <label class="form-check-label" for="level-1-radio">
-                                First Level
-                            </label>
+
+                <div class="form-group row">
+                    <label for="checksumFile" class="col-sm-2 col-form-label">Checksum</label>
+                    <div class="col-sm-10">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="checksumFile" name="checksum">
+                            <label class="custom-file-label @error('checksum') border-danger @enderror"
+                                for="checksumFile">Choose file</label>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="level" id="level-2-radio" value="second">
-                            <label class="form-check-label" for="level-2-radio">
-                                Second Level
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="level" id="level-3-radio" value="third">
-                            <label class="form-check-label" for="level-3-radio">
-                                Third Level
-                            </label>
-                        </div>
-                        @error('level')
-                            <small id="device-level-error" class="form-text text-danger">{{ $message }}</small>
+                        @error('checksum')
+                            <small id="firmware-checksum-error" class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
-                </fieldset>
+                </div>
+
+                <div class="form-group row">
+                    <label for="firmwareFile" class="col-sm-2 col-form-label">Firmware</label>
+                    <div class="col-sm-10">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="firmwareFile" name="firmware">
+                            <label class="custom-file-label @error('firmware') border-danger @enderror"
+                                for="firmwareFile">Choose file</label>
+                        </div>
+                        @error('firmware')
+                            <small id="firmware-firmware-error" class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
                 <div class="form-group row">
                     <div class="col-sm-10">
                         <button type="submit" class="btn btn-primary">Create</button>

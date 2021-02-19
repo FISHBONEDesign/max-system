@@ -12,7 +12,7 @@
                         onclick="event.preventDefault();document.getElementById('delete-device-{{ $device->id }}').submit();console.log();">
                         <i class="fas fa-trash-alt"></i>
                     </button>
-                    <form id="delete-device-{{ $device->id }}" method="post"
+                    <form id="delete-device-{{ $device->id }}" class="d-none" method="post"
                         action="{{ route('admin.manage.devices.destroy', $device->id) }}">
                         @csrf
                         @method('delete')

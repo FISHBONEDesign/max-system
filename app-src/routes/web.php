@@ -53,7 +53,7 @@ Route::prefix('admin')->group(function () {
             Route::prefix('/firmwares')->name('firmwares.')->group(function () {
                 Route::get('/list/{device}', 'FirmwareController@list')->name('list');
                 Route::get('/create/{device}', 'FirmwareController@create')->name('create');
-                Route::post('/store/{device}', 'FirmwareController@create')->name('store');
+                Route::post('/store/{device}', 'FirmwareController@store')->name('store');
             });
         });
     });
