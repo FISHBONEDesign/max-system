@@ -59,6 +59,8 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+Route::get('/download/firmwares/{device}/{version}/{action}', 'FirmwareController@download')->name('download.firmware');
+
 Route::get('/', function () {
     return view('welcome');
 });

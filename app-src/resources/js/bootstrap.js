@@ -12,6 +12,7 @@ window.init_window_function = () => {
         window.$ = window.jQuery = require('jquery');
 
         require('bootstrap');
+        require('./custom-file-input');
         require('./sidebar');
     } catch (e) { }
 };

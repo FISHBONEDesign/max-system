@@ -43,4 +43,39 @@ class FirmwareController extends Controller
         ]);
         return redirect()->route('admin.manage.firmwares.list', $device);
     }
+
+    public function edit(Firmware $firmware)
+    {
+        return view('firmwares.edit', compact('firmware'));
+    }
+
+    public function update(Firmware $firmware)
+    {
+        request()->validate([
+            'version' => 'required',
+            'checksum' => 'nullable|file|mimes:text,txt', // --> update to text
+            'firmware' => 'nullable|file|mimes:bin'
+        ]);
+        return redirect()->back();
+    }
+
+    public function download($device, $version, $action)
+    {
+        $device = Device::where('name', $device)->firstOrFail();
+        $firmware = $device->firmwares()->where('version', $version)->firstOrFail();
+        $response = null;
+        $file_prefix = $device->name . '-v' . $version;
+        if ($action === 'firmware') {
+            $ext = pathinfo($firmware->path)['extension'];
+            $download_name = $file_prefix . '.' . $ext;
+            $response = Storage::disk('public')->download($firmware->path, $download_name);
+        }
+        if ($action === 'checksum') {
+            $ext = pathinfo($firmware->checksum)['extension'];
+            $download_name = $file_prefix . '.' . $ext;
+            $response = Storage::disk('public')->download($firmware->checksum, $download_name);
+        }
+        if ($response === null) abort(404);
+        return $response;
+    }
 }
