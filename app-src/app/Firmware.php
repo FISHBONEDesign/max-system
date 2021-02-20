@@ -16,6 +16,11 @@ class Firmware extends Model
         'path'
     ];
 
+    protected $hidden = [
+        'version_log',
+        'path'
+    ];
+
     public function device()
     {
         return $this->belongsTo(Device::class);

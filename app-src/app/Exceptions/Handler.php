@@ -65,15 +65,15 @@ class Handler extends ExceptionHandler
     {
         $exception = $this->prepareException($exception);
 
-        if ($exception instanceof \Illuminate\Http\Exception\HttpResponseException) {
+        if ($exception instanceof HttpResponseException) {
             $exception = $exception->getResponse();
         }
 
-        if ($exception instanceof \Illuminate\Auth\AuthenticationException) {
+        if ($exception instanceof AuthenticationException) {
             $exception = $this->unauthenticated($request, $exception);
         }
 
-        if ($exception instanceof \Illuminate\Validation\ValidationException) {
+        if ($exception instanceof ValidationException) {
             $exception = $this->convertValidationExceptionToResponse($exception, $request);
         }
 
@@ -112,7 +112,7 @@ class Handler extends ExceptionHandler
                 break;
         }
 
-        if (config('app.debug')) {
+        if ($statusCode === 500 && config('app.debug')) {
             $response['trace'] = $exception->getTrace();
             $response['code'] = $exception->getCode();
         }

@@ -22,3 +22,7 @@ Route::namespace('Api\Auth')->prefix('/auth')->group(function () {
     Route::post('/register', 'BaseController@register');
     Route::middleware('auth:api')->get('/profile', 'BaseController@profile');
 });
+
+Route::namespace('Api')->group(function() {
+    Route::post('/firmware/check_update', 'UpdateController@check_update');
+});
