@@ -46,11 +46,20 @@ Route::prefix('admin')->group(function () {
             return view('adminhome');
         })->name('home');
 
-        Route::name('manage')->resource('devices', 'DeviceController');
+        Route::name('manage.')->group(function () {
+            Route::resource('devices', 'DeviceController');
 
-        Route::get('/firmwares', 'FirmwareController@index')->name('manage.firmware');
+            Route::resource('firmwares', 'FirmwareController');
+            Route::prefix('/firmwares')->name('firmwares.')->group(function () {
+                Route::get('/list/{device}', 'FirmwareController@list')->name('list');
+                Route::get('/create/{device}', 'FirmwareController@create')->name('create');
+                Route::post('/store/{device}', 'FirmwareController@store')->name('store');
+            });
+        });
     });
 });
+
+Route::get('/download/firmwares/{device}/{version}/{action}', 'FirmwareController@download')->name('download.firmware');
 
 Route::get('/', function () {
     return view('welcome');
