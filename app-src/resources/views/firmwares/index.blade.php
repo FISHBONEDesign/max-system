@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="mb-2">
+        <a href="{{ route('admin.manage.devices.index') }}" class="btn btn-outline-dark">< List Devices</a>
         <a href="{{ route('admin.manage.firmwares.create', $device) }}" class="btn btn-primary">New Firmware</a>
     </div>
     <div class="card">
@@ -20,7 +21,7 @@
                                 <i class="fas fa-edit"></i>
                             </a>
                             <button type="button" class="btn text-danger"
-                                onclick="event.preventDefault();document.getElementById('delete-firmware-{{ $firmware->id }}').submit();console.log();">
+                                onclick="event.preventDefault();if (window.confirm('comfirm to delete this firmware?')) document.getElementById('delete-firmware-{{ $firmware->id }}').submit();console.log();">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                             <form id="delete-firmware-{{ $firmware->id }}" class="d-none" method="post"
@@ -36,6 +37,7 @@
                                 data-turbolinks="false" class="btn btn-primary">firmware</a>
                             <a href="{{ route('download.firmware', [$firmware->device->name, $firmware->version, 'version_log']) }}"
                                 data-turbolinks="false" class="btn btn-primary">change log</a>
+                                checksum: {{$firmware->checksum}}
                         </div>
                     @endcomponent
                 </li>

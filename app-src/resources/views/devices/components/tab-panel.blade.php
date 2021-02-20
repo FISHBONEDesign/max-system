@@ -2,8 +2,10 @@
     <ul class="list-group">
         @forelse ($devices as $index => $device)
             <li class="list-group-item">
-                <span class="badge-pill">#{{ $index }}</span>
-                {{ $device->name }}
+                <a href="{{ route('admin.manage.firmwares.list', $device) }}">
+                    <span class="badge-pill">#{{ $index }}</span>
+                    {{ $device->name }}
+                </a>
                 <span class="badge-pill">
                     <a href="{{ route('admin.manage.devices.edit', $device->id) }}" class="btn text-success">
                         <i class="fas fa-edit"></i>

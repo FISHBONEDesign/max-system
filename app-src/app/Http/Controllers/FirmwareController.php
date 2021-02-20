@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FirmwareController extends Controller
 {
-    public function index(Request $request)
-    {
-        $devices = Device::all();
-        return view('firmwares.devices-index', compact('devices'));
-    }
-
     public function list(Device $device)
     {
         return view('firmwares.index', compact('device'));
@@ -71,6 +65,13 @@ class FirmwareController extends Controller
         return redirect()->route('admin.manage.firmwares.list', $firmware->device);
     }
 
+    public function destroy(Firmware $firmware)
+    {
+        $device = $firmware->device;
+        $firmware->delete();
+        return redirect()->route('admin.manage.firmwares.list', $device);
+    }
+
     public function download($device, $version, $action)
     {
         $device = Device::where('name', $device)->firstOrFail();
@@ -84,7 +85,7 @@ class FirmwareController extends Controller
         }
         if ($action === 'version_log') {
             $ext = pathinfo($firmware->version_log)['extension'];
-            $download_name = $file_prefix. '-change-log' . '.' . $ext;
+            $download_name = $file_prefix . '-change-log' . '.' . $ext;
             $response = Storage::disk('public')->download($firmware->version_log, $download_name);
         }
         if ($response === null) abort(404);
