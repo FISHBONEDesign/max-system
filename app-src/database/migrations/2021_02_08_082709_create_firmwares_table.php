@@ -17,7 +17,10 @@ class CreateFirmwaresTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('device_id');
             $table->string('version');
+            $table->string('support_version_oldest')->nullable();
+            $table->string('support_version_newest')->nullable();
             $table->string('checksum');
+            $table->string('version_log')->nullable();
             $table->string('path');
             $table->timestamps();
         });

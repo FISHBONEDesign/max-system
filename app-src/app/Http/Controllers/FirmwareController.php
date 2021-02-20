@@ -22,25 +22,26 @@ class FirmwareController extends Controller
 
     public function create(Device $device)
     {
-        return view('firmwares.create', compact('device'));
+        $firmware = new Firmware();
+        $firmware->device_id = $device->id;
+        return view('firmwares.create', compact('firmware'));
     }
 
     public function store(Device $device)
     {
-        request()->validate([
+        $validated = request()->validate([
             'version' => 'required|unique:firmwares',
-            'checksum' => 'required|file',
-            'firmware' => 'required|file'
+            'support_version_oldest' => 'nullable|string',
+            'support_version_newest' => 'nullable|string',
+            'checksum' => 'required|string',
+            'version_log' => 'nullable|file',
+            'firmwareFile' => 'required|file'
         ]);
         $driver = 'public';
         $storage_path  = 'firmwares/' . $device->name . '/' . request()->version;
-        $checksum = request()->checksum->store($storage_path, $driver);
-        $firmware = request()->firmware->store($storage_path, $driver);
-        $firmware_obj = $device->firmwares()->create([
-            'version' => request()->version,
-            'checksum' => $checksum,
-            'path' => $firmware
-        ]);
+        $validated['version_log'] = request()->version_log->store($storage_path, $driver);
+        $validated['path'] = request()->firmwareFile->store($storage_path, $driver);
+        $firmware_obj = $device->firmwares()->create($validated);
         return redirect()->route('admin.manage.firmwares.list', $device);
     }
 
@@ -51,12 +52,23 @@ class FirmwareController extends Controller
 
     public function update(Firmware $firmware)
     {
-        request()->validate([
-            'version' => 'required',
-            'checksum' => 'nullable|file|mimes:text,txt', // --> update to text
-            'firmware' => 'nullable|file|mimes:bin'
+        $validated = request()->validate([
+            'version' => "required|unique:firmwares,version,{$firmware->id}",
+            'support_version_oldest' => 'nullable|string',
+            'support_version_newest' => 'nullable|string',
+            'checksum' => 'required|string',
+            'version_log' => 'nullable|file',
+            'firmwareFile' => 'nullable|file|mimes:bin'
         ]);
-        return redirect()->back();
+        $driver = 'public';
+        $storage_path  = 'firmwares/' . $firmware->device->name . '/' . request()->version;
+        if (request()->version_log)
+            $validated['version_log'] = request()->version_log->store($storage_path, $driver);
+        if (request()->firmwareFile)
+            $validated['path'] = request()->firmwareFile->store($storage_path, $driver);
+        $firmware->update($validated);
+
+        return redirect()->route('admin.manage.firmwares.list', $firmware->device);
     }
 
     public function download($device, $version, $action)
@@ -70,10 +82,10 @@ class FirmwareController extends Controller
             $download_name = $file_prefix . '.' . $ext;
             $response = Storage::disk('public')->download($firmware->path, $download_name);
         }
-        if ($action === 'checksum') {
-            $ext = pathinfo($firmware->checksum)['extension'];
-            $download_name = $file_prefix . '.' . $ext;
-            $response = Storage::disk('public')->download($firmware->checksum, $download_name);
+        if ($action === 'version_log') {
+            $ext = pathinfo($firmware->version_log)['extension'];
+            $download_name = $file_prefix. '-change-log' . '.' . $ext;
+            $response = Storage::disk('public')->download($firmware->version_log, $download_name);
         }
         if ($response === null) abort(404);
         return $response;

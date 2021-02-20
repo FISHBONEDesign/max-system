@@ -34,8 +34,8 @@
                         <div class="card-body">
                             <a href="{{ route('download.firmware', [$firmware->device->name, $firmware->version, 'firmware']) }}"
                                 data-turbolinks="false" class="btn btn-primary">firmware</a>
-                            <a href="{{ route('download.firmware', [$firmware->device->name, $firmware->version, 'checksum']) }}"
-                                data-turbolinks="false" class="btn btn-primary">checksum</a>
+                            <a href="{{ route('download.firmware', [$firmware->device->name, $firmware->version, 'version_log']) }}"
+                                data-turbolinks="false" class="btn btn-primary">change log</a>
                         </div>
                     @endcomponent
                 </li>
