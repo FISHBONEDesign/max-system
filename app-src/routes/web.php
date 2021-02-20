@@ -43,8 +43,21 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware('auth:admin')->name('admin.')->group(function () {
         Route::get('/', function () {
-            return view('adminhome');
+            return redirect()->route('admin.projects.index');
         })->name('home');
+
+        Route::prefix('/projects')->name('projects.')->group(function () {
+            Route::get('/', 'ProjectController@index')->name('index');
+            Route::post('/', 'ProjectController@store')->name('store');
+            Route::get('/create', 'ProjectController@create')->name('create');
+            Route::get('/{project}', 'ProjectController@show')->name('show');
+
+            Route::prefix('/{project}/folders')->name('folders.')->group(function () {
+                Route::get('/show/{folder?}', 'FolderController@show')->name('show');
+                Route::get('/create/{folder?}', 'FolderController@create')->name('create');
+                Route::post('/{folder?}', 'FolderController@store')->name('store');
+            });
+        });
 
         Route::name('manage.')->group(function () {
             Route::resource('devices', 'DeviceController');
