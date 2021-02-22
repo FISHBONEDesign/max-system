@@ -51,6 +51,9 @@ Route::prefix('admin')->group(function () {
             Route::post('/', 'ProjectController@store')->name('store');
             Route::get('/create', 'ProjectController@create')->name('create');
             Route::get('/{project}', 'ProjectController@show')->name('show');
+            Route::get('/{project}/edit', 'ProjectController@edit')->name('edit');
+            Route::patch('/{project}/update', 'ProjectController@update')->name('update');
+            Route::delete('/{project}/destroy', 'ProjectController@destroy')->name('destroy');
 
             Route::prefix('/{project}/folders')->name('folders.')->group(function () {
                 Route::get('/show/{folder?}', 'FolderController@show')->name('show');

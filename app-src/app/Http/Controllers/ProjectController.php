@@ -37,4 +37,22 @@ class ProjectController extends Controller
     {
         return redirect()->route('admin.projects.folders.show', $project);
     }
+
+    public function edit(Project $project)
+    {
+        return view('projects.edit', compact('project'));
+    }
+
+    public function update(Project $project)
+    {
+        $project->update(request()->validate(['name' => 'required']));
+        return redirect()->route('admin.projects.show', $project);
+    }
+
+    public function destroy(Project $project)
+    {
+        $project->folders()->delete();
+        $project->delete();
+        return redirect()->route('admin.home');
+    }
 }

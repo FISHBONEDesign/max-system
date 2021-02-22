@@ -22,14 +22,7 @@ if ($folder && $folder->id !== 0) {
 @endphp
 
 @section('content')
-    <div class="card mb-2">
-        <div class="card-header">{{ $project->name }}</div>
-
-        <div class="card-body">
-            created at: {{ $project->created_at }} <br>
-            updated at: {{ $project->updated_at }} <br>
-        </div>
-    </div>
+    @include('projects.show')
     <div class="card">
         <div class="card-header">Folders & Devices</div>
         <div class="card-body">

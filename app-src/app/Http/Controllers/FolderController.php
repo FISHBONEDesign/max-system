@@ -102,7 +102,15 @@ class FolderController extends Controller
     public function destroy(Project $project, Folder $folder)
     {
         $route = route('admin.projects.folders.show', $folder->project, $folder->parent);
-        $folder->delete();
+        $this->delete_folder($folder);
         return redirect($route);
+    }
+
+    private function delete_folder(Folder $folder)
+    {
+        foreach ($folder->folders as $sub_folder) {
+            $this->delete_folder($sub_folder);
+        }
+        return $folder->delete();
     }
 }
