@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Device;
+use App\Folder;
+use App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class DeviceController extends Controller
 {
@@ -12,37 +15,72 @@ class DeviceController extends Controller
         return view('devices.index')->with('devices', Device::all());
     }
 
-    public function create()
+    public function create(Project $project, Folder $folder = null)
     {
-        return view('devices.create');
+        $folder = $folder ? $folder : new Folder();
+        $device = new Device;
+        $device->project_id = $project->id;
+        $device->folder_id = $folder->id;
+        return view('devices.create', ['device' => $device]);
     }
 
-    public function edit(Device $device)
+    public function edit(Project $project, DEvice $device)
     {
         return view('devices.edit')->with('device', $device);
     }
 
-    public function store(Request $request)
+    public function store(Project $project, Request $request)
     {
-        Device::create($request->validate([
-            'name' => ['required', 'unique:devices'],
-            'level' => ['required', 'in:first,second,third']
-        ]));
-        return redirect()->route('admin.manage.devices.index');
+        $data = $request->validate([
+            'name' => ['required'],
+            'path' => ['required']
+        ]);
+        $old_device = $project->devices()->whereName($data['name'])->first();
+        if ($old_device) {
+            return $this->update($project, $old_device);
+        }
+        $data['folder_id'] = $this->path_to_folder($project, $data['path']);
+        $device = $project->devices()->create($data);
+        return redirect()->route('admin.projects.folders.show', [$device->project, $device->folder]);
     }
 
-    public function update(Device $device)
+    public function update(Project $project, Device $device)
     {
-        $device->update(request()->validate([
-            'name' => ['required', "unique:devices,name,{$device->id}"],
-            'level' => ['required', 'in:first,second,third']
-        ]));
-        return redirect()->route('admin.manage.devices.index');
+        $data = request()->validate([
+            'name' => ['required'],
+            'path' => ['required']
+        ]);
+        $old_device = $project->devices()->where('id', '!=', $device->id)->whereName($data['name'])->first();
+        if ($old_device) {
+            throw ValidationException::withMessages([
+                'name' => 'device already exist in this project.'
+            ]);
+        }
+        $data['folder_id'] = $this->path_to_folder($project, $data['path']);
+        $device->update($data);
+        return redirect()->route('admin.projects.folders.show', [$device->project, $device->folder]);
     }
 
-    public function destroy(Device $device)
+    private function path_to_folder($project, $path)
     {
+        $folders = collect(explode('/', $path));
+        $log_folder = ['project_id' => $project->id, 'parent_id' => 0];
+        $exists_folder = null;
+        foreach ($folders as $folder) {
+            if ($folder === '') continue;
+            $log_folder['name'] = $folder;
+            $exists_folder = Folder::where($log_folder)->first();
+            if ($exists_folder) {
+                $log_folder['parent_id'] = $exists_folder->id;
+            }
+        }
+        return $exists_folder ? $exists_folder->id : 0;
+    }
+
+    public function destroy(Project $project, Device $device)
+    {
+        $route = route('admin.projects.folders.show', [$device->project, $device->folder]);
         $device->delete();
-        return redirect()->route('admin.manage.devices.index');
+        return redirect($route);
     }
 }

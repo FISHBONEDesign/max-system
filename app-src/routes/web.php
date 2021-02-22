@@ -43,23 +43,49 @@ Route::prefix('admin')->group(function () {
 
     Route::middleware('auth:admin')->name('admin.')->group(function () {
         Route::get('/', function () {
-            return view('adminhome');
+            return redirect()->route('admin.projects.index');
         })->name('home');
 
-        Route::name('manage.')->group(function () {
-            Route::resource('devices', 'DeviceController');
+        Route::prefix('/projects')->name('projects.')->group(function () {
+            Route::get('/', 'ProjectController@index')->name('index');
+            Route::post('/', 'ProjectController@store')->name('store');
+            Route::get('/create', 'ProjectController@create')->name('create');
+            Route::get('/{project}', 'ProjectController@show')->name('show');
+            Route::get('/{project}/edit', 'ProjectController@edit')->name('edit');
+            Route::patch('/{project}/update', 'ProjectController@update')->name('update');
+            Route::delete('/{project}/destroy', 'ProjectController@destroy')->name('destroy');
 
-            Route::resource('firmwares', 'FirmwareController');
-            Route::prefix('/firmwares')->name('firmwares.')->group(function () {
-                Route::get('/list/{device}', 'FirmwareController@list')->name('list');
-                Route::get('/create/{device}', 'FirmwareController@create')->name('create');
-                Route::post('/store/{device}', 'FirmwareController@store')->name('store');
+            Route::prefix('/{project}/folders')->name('folders.')->group(function () {
+                Route::get('/show/{folder?}', 'FolderController@show')->name('show');
+                Route::get('/create/{folder?}', 'FolderController@create')->name('create');
+                Route::post('/{folder?}', 'FolderController@store')->name('store');
+                Route::get('/{folder}/edit', 'FolderController@edit')->name('edit');
+                Route::patch('/{folder}/update', 'FolderController@update')->name('update');
+                Route::delete('/{folder}', 'FolderController@destroy')->name('destroy');
+            });
+
+            Route::prefix('/{project}/devices')->name('devices.')->group(function () {
+                Route::get('/create/{folder?}', 'DeviceController@create')->name('create');
+                Route::post('/', 'DeviceController@store')->name('store');
+                Route::get('/show/{folder?}', 'DeviceController@show')->name('show');
+                Route::get('/{device}/edit', 'DeviceController@edit')->name('edit');
+                Route::patch('/{device}/update', 'DeviceController@update')->name('update');
+                Route::delete('/{device}', 'DeviceController@destroy')->name('destroy');
+            });
+
+            Route::prefix('/{project}/firmwares')->name('firmwares.')->group(function () {
+                Route::get('/{device}', 'FirmwareController@list')->name('list');
+                Route::get('/{device}/create', 'FirmwareController@create')->name('create');
+                Route::post('/{device}/store', 'FirmwareController@store')->name('store');
+                Route::get('/{firmware}/edit', 'FirmwareController@edit')->name('edit');
+                Route::patch('/{firmware}/update', 'FirmwareController@update')->name('update');
+                Route::delete('/{firmware}/destroy', 'FirmwareController@destroy')->name('destroy');
             });
         });
     });
 });
 
-Route::get('/download/firmwares/{device}/{version}/{action}', 'FirmwareController@download')->name('download.firmware');
+Route::get('/download/firmwares/{project}/{device}/{version}/{action}', 'FirmwareController@download')->name('download.firmware');
 
 Route::get('/', function () {
     return view('welcome');

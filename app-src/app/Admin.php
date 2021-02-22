@@ -10,7 +10,7 @@ use App\Notifications\AdminResetPasswordNotification;
 
 class Admin extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasProject;
 
     /**
      * The attributes that are mass assignable.

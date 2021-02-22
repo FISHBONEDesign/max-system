@@ -15,6 +15,17 @@
     </div>
 
     <div class="form-group row">
+        <label for="firmware-release" class="col-sm-2 col-form-label">Release</label>
+        <div class="col-sm-10">
+            <input id="firmware-release" name="release" value="{{ old('release', $firmware->release) }}" type="date"
+                class="form-control @error('release') border-danger @enderror">
+            @error('release')
+                <small id="firmware-release-error" class="form-text text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label for="checksum" class="col-sm-2 col-form-label">Checksum</label>
         <div class="col-sm-10">
             <input id="checksum" name="checksum" value="{{ old('checksum', $firmware->checksum) }}" type="text"
@@ -73,7 +84,8 @@
         <div class="col-sm-10">
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="firmwareFile" name="firmwareFile">
-                <label class="custom-file-label @error('firmwareFile') border-danger @enderror" for="firmwareFile">Choose
+                <label class="custom-file-label @error('firmwareFile') border-danger @enderror"
+                    for="firmwareFile">Choose
                     file</label>
             </div>
             @if ($update)
@@ -87,7 +99,8 @@
     <div class="form-group row">
         <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">{{ !$update ? 'Create' : 'Update' }}</button>
-            <a href="{{ route('admin.manage.firmwares.list', $firmware->device) }}" class="btn btn-secondary">Cancel</a>
+            <a href="{{ route('admin.projects.firmwares.list', [$firmware->device->project, $firmware->device]) }}"
+                class="btn btn-secondary">Cancel</a>
         </div>
     </div>
 </form>

@@ -1,7 +1,14 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card">
+    @component('devices.components.form', [
+        'update' => false,
+        'action' => route('admin.projects.devices.store', $device->project),
+        'folder' => $device->folder,
+        'device' => $device,
+    ])
+    @endcomponent
+    {{-- <div class="card">
         <div class="card-header">Create New Device</div>
         <div class="card-body">
             <form method="post" action="{{ route('admin.manage.devices.store') }}">
@@ -50,5 +57,5 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}
 @endsection
