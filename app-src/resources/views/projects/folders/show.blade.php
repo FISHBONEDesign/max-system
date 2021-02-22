@@ -52,10 +52,31 @@ if ($folder && $folder->id !== 0) {
                             <a href="{{ route('admin.projects.folders.show', [$content->project, $content]) }}">
                                 <i class="fas fa-folder"></i> {{ $content->name }}
                             </a>
+                            <span class="badge-pill">
+                                <a href="{{ route('admin.projects.folders.edit', [$content->project, $content]) }}"
+                                    class="text-success"><i class="fas fa-edit"></i></a>
+                            </span>
+                            <span class="badge-pill">
+                                <button class="text-danger"
+                                    onclick="event.preventDefault(); if (window.confirm('are you sure to delete the folder and contents?')) document.getElementById('delete-folder-{{ $content->id }}').submit();"><i
+                                        class="fas fa-trash-alt"></i></button>
+                            </span>
+                            <form id="delete-folder-{{ $content->id }}"
+                                action="{{ route('admin.projects.folders.destroy', [$content->project, $content]) }}"
+                                method="post">
+                                @csrf
+                                @method('delete')
+                            </form>
                         @endif
                     </li>
                 @empty
-                    <li class="list-group-item">this project is empry.</li>
+                    <li class="list-group-item">
+                        @if ($folder->id === 0)
+                            this project is empry.
+                        @else
+                            this folder is empry.
+                        @endif
+                    </li>
                 @endforelse
             </ul>
         </div>

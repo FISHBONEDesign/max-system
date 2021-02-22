@@ -1,3 +1,6 @@
+@php
+$route_parameters = [$folder->project, $update ? $folder->parent : $folder];
+@endphp
 <form method="post" action="{{ $action }}">
     @csrf
     @if ($update)
@@ -16,7 +19,8 @@
     <div class="form-group row">
         <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">{{ !$update ? 'Create' : 'Update' }}</button>
-            <a href="{{ route('admin.home') }}" class="btn btn-secondary">Cancel</a>
+            <a href="{{ route('admin.projects.folders.show', $route_parameters) }}"
+                class="btn btn-secondary">Cancel</a>
         </div>
     </div>
 </form>
