@@ -55,7 +55,7 @@ class FirmwareController extends Controller
             'support_version_newest' => 'nullable|string',
             'checksum' => 'required|string',
             'version_log' => 'nullable|file',
-            'firmwareFile' => 'nullable|file|mimes:bin'
+            'firmwareFile' => 'nullable|file'
         ]);
         $driver = 'public';
         $storage_path  = 'firmwares/' . $firmware->device->name . '/' . request()->version;
