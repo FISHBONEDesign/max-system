@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Device extends Model
 {
-    protected $fillable = ['name', 'level'];
+    protected $fillable = ['folder_id', 'name'];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function folder()
+    {
+        return $this->belongsTo(Folder::class);
+    }
 
     public function firmwares()
     {

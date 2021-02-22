@@ -6,9 +6,9 @@
         <div class="card-body">
             <div class="card-body">
                 @component('firmwares.components.form', [
-                    'action' => route('admin.manage.firmwares.update', $firmware),
+                    'action' => route('admin.projects.firmwares.update', [$firmware->device->project, $firmware]),
                     'update' => true,
-                    'firmware' => $firmware
+                    'firmware' => $firmware,
                 ])
                 @endcomponent
             </div>

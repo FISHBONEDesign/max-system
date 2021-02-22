@@ -12,7 +12,7 @@
                 'action' => route('admin.projects.folders.update', $parameters),
                 'update' => true,
                 'folder' => $folder
-                ])
+            ])
             @endcomponent
         </div>
     </div>

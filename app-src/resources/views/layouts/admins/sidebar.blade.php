@@ -12,7 +12,7 @@
         @empty
 
         @endforelse
-        <a href="{{ route('admin.manage.devices.index') }}" class="list-group-item list-group-item-action @if (request()->routeIs('admin.manage.devices.*') ||
-        request()->routeIs('admin.manage.firmwares.*')) active @else bg-light @endif">Devices & Firmwares</a>
+        {{-- <a href="{{ route('admin.projects.devices.index') }}" class="list-group-item list-group-item-action @if (request()->routeIs('admin.manage.devices.*') ||
+        request()->routeIs('admin.manage.firmwares.*')) active @else bg-light @endif">Devices & Firmwares</a> --}}
     </div>
 </div>

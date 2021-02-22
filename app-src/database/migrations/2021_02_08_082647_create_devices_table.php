@@ -15,7 +15,8 @@ class CreateDevicesTable extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('level', ['first', 'second', 'third']);
+            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('folder_id')->nullable()->default(0);
             $table->string('name');
             $table->timestamps();
         });

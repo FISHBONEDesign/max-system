@@ -9,6 +9,7 @@ class Firmware extends Model
     protected $table = 'firmwares';
     protected $fillable = [
         'version',
+        'release',
         'support_version_oldest',
         'support_version_newest',
         'checksum',

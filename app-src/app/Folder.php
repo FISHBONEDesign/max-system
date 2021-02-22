@@ -27,7 +27,22 @@ class Folder extends Model
 
     public function devices()
     {
-        return $this->belongsToMany(Device::class, 'folder_device');
+        return $this->hasMany(Device::class);
+    }
+
+    public function getPathAttribute($value)
+    {
+        return '/' . $this->get_parent($this)->reverse()->pluck('name')->join('/');
+    }
+
+    private function get_parent(Folder $folder)
+    {
+        $folders = collect([]);
+        $folders->push($folder);
+        if ($folder->parent !== 0 && $folder->parent !== null) {
+            $folders = $folders->concat($this->get_parent($folder->parent));
+        }
+        return $folders;
     }
 
     public function getContentsAttribute($value)
@@ -35,7 +50,7 @@ class Folder extends Model
         return $this->folders->map(function ($folder) {
             $folder->type = 'folder';
             return $folder;
-        })->merge($this->devices->map(function ($device) {
+        })->concat($this->devices->map(function ($device) {
             $device->type = 'device';
             return $device;
         }));

@@ -18,21 +18,13 @@ class Project extends Model
         return $this->hasMany(Folder::class);
     }
 
-    public function getDevicesAttribute($value)
+    public function devices()
     {
-        $folder = $this->folders()->where('parent_id', 0)->first();
-        if ($folder) return $folder->devices;
-        else return collect();
+        return $this->hasMany(Device::class);
     }
 
     public function getContentsAttribute($value)
     {
-        return $this->folders()->where('parent_id', 0)->get()->map(function ($folder) {
-            $folder->type = 'folder';
-            return $folder;
-        })->merge($this->devices->map(function ($device) {
-            $device->type = 'device';
-            return $device;
-        }));
+        return $this->folders->concat($this->devices);
     }
 }

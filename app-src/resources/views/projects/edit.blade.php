@@ -8,7 +8,7 @@
                 'action' => route('admin.projects.update', $project),
                 'update' => true,
                 'project' => $project
-                ])
+            ])
             @endcomponent
         </div>
     </div>

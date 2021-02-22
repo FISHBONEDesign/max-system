@@ -47,7 +47,7 @@ class FolderController extends Controller
             $folder->id = 0;
         }
         foreach ($new_folders as $index => $new_folder) {
-            if ($absolute && $index === 0) continue;
+            if ($absolute && $index === 0 || $new_folder === '') continue;
             $new_folder_data = [
                 'project_id' => $folder->project_id,
                 'parent_id' => $folder->id,

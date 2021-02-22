@@ -28,9 +28,9 @@ if ($folder && $folder->id !== 0) {
         <div class="card-body">
             <div class="mb-2">
                 <a href="{{ route('admin.projects.folders.create', $router_parameters) }}"
-                    class="btn btn-sm btn-primary">Add
-                    Folder</a>
-                <a href="" class="btn btn-sm btn-primary">Add Device</a>
+                    class="btn btn-sm btn-primary">Add Folder</a>
+                <a href="{{ route('admin.projects.devices.create', $router_parameters) }}"
+                    class="btn btn-sm btn-primary">Add Device</a>
             </div>
             @foreach ($breadcrumbs as $index => $breadcrumb)
                 <a {{ $breadcrumb->href ? "href={$breadcrumb->href}" : '' }}>{{ $breadcrumb->name }}</a>
@@ -56,6 +56,26 @@ if ($folder && $folder->id !== 0) {
                             </span>
                             <form id="delete-folder-{{ $content->id }}"
                                 action="{{ route('admin.projects.folders.destroy', [$content->project, $content]) }}"
+                                method="post">
+                                @csrf
+                                @method('delete')
+                            </form>
+                        @endif
+                        @if ($content->type === 'device')
+                            <a href="{{ route('admin.projects.firmwares.list', [$content->project, $content]) }}">
+                                <i class="fas fa-microchip"></i> {{ $content->name }}
+                            </a>
+                            <span class="badge-pill">
+                                <a href="{{ route('admin.projects.devices.edit', [$content->project, $content]) }}"
+                                    class="text-success"><i class="fas fa-edit"></i></a>
+                            </span>
+                            <span class="badge-pill">
+                                <button class="text-danger"
+                                    onclick="event.preventDefault(); if (window.confirm('are you sure to delete the device?')) document.getElementById('delete-device-{{ $content->id }}').submit();"><i
+                                        class="fas fa-trash-alt"></i></button>
+                            </span>
+                            <form id="delete-device-{{ $content->id }}"
+                                action="{{ route('admin.projects.devices.destroy', [$content->project, $content]) }}"
                                 method="post">
                                 @csrf
                                 @method('delete')
