@@ -24,5 +24,5 @@ Route::namespace('Api\Auth')->prefix('/auth')->group(function () {
 });
 
 Route::namespace('Api')->group(function() {
-    Route::post('/firmware/check_update', 'UpdateController@check_update');
+    Route::post('/firmware/check_update/{project}', 'UpdateController@check_update');
 });
