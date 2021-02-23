@@ -7,6 +7,8 @@ use App\Firmware;
 use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class FirmwareController extends Controller
 {
@@ -82,17 +84,20 @@ class FirmwareController extends Controller
         $firmware = $device->firmwares()->where('version', $version)->firstOrFail();
         $response = null;
         $file_prefix = $device->name . '-v' . $version;
+        $download_name = null;
         if ($action === 'firmware') {
             $ext = pathinfo($firmware->path)['extension'];
             $download_name = $file_prefix . '.' . $ext;
-            $response = Storage::disk('public')->download($firmware->path, $download_name);
+            $response = Storage::disk('public')->path($firmware->path);
         }
         if ($action === 'version_log') {
             $ext = pathinfo($firmware->version_log)['extension'];
             $download_name = $file_prefix . '-change-log' . '.' . $ext;
-            $response = Storage::disk('public')->download($firmware->version_log, $download_name);
+            $response = Storage::disk('public')->path($firmware->version_log);
         }
         if ($response === null) abort(404);
+        $response = new BinaryFileResponse($response);
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $download_name);
         return $response;
     }
 }
