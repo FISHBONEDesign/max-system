@@ -7,6 +7,8 @@ use App\Firmware;
 use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class FirmwareController extends Controller
 {
@@ -77,10 +79,6 @@ class FirmwareController extends Controller
 
     public function download($project, $device, $version, $action)
     {
-        // Storage::get('filepath'); // get file binary content
-        // Storage::path('filepath'); // get file real path
-        // Storage::url('filepath'); // get file download url
-        // Storage::download('filepath'); // response Symfony\Component\HttpFoundation\StreamedResponse
         $project = Project::whereName($project)->firstOrFail();
         $device = $project->devices()->where('name', $device)->firstOrFail();
         $firmware = $device->firmwares()->where('version', $version)->firstOrFail();
