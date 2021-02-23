@@ -77,22 +77,29 @@ class FirmwareController extends Controller
 
     public function download($project, $device, $version, $action)
     {
+        // Storage::get('filepath'); // get file binary content
+        // Storage::path('filepath'); // get file real path
+        // Storage::url('filepath'); // get file download url
+        // Storage::download('filepath'); // response Symfony\Component\HttpFoundation\StreamedResponse
         $project = Project::whereName($project)->firstOrFail();
         $device = $project->devices()->where('name', $device)->firstOrFail();
         $firmware = $device->firmwares()->where('version', $version)->firstOrFail();
         $response = null;
         $file_prefix = $device->name . '-v' . $version;
+        $download_name = null;
         if ($action === 'firmware') {
             $ext = pathinfo($firmware->path)['extension'];
             $download_name = $file_prefix . '.' . $ext;
-            $response = Storage::disk('public')->download($firmware->path, $download_name);
+            $response = Storage::disk('public')->path($firmware->path);
         }
         if ($action === 'version_log') {
             $ext = pathinfo($firmware->version_log)['extension'];
             $download_name = $file_prefix . '-change-log' . '.' . $ext;
-            $response = Storage::disk('public')->download($firmware->version_log, $download_name);
+            $response = Storage::disk('public')->path($firmware->version_log);
         }
         if ($response === null) abort(404);
+        $response = new BinaryFileResponse($response);
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $download_name);
         return $response;
     }
 }
