@@ -7,6 +7,7 @@ use App\Firmware;
 use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
@@ -27,7 +28,7 @@ class FirmwareController extends Controller
     public function store(Project $project, Device $device)
     {
         $validated = request()->validate([
-            'version' => 'required|unique:firmwares',
+            'version' => 'required',
             'release' => 'required|date',
             'support_version_oldest' => 'nullable|string',
             'support_version_newest' => 'nullable|string',
@@ -35,9 +36,15 @@ class FirmwareController extends Controller
             'version_log' => 'nullable|file',
             'firmwareFile' => 'required|file'
         ]);
+        $old_firmware = $device->firmwares()->whereVersion($validated['version'])->first();
+        if ($old_firmware) {
+            throw ValidationException::withMessages([
+                'version' => 'The version has already been taken.'
+            ]);
+        }
         $driver = 'public';
         $storage_path  = 'firmwares/' . $device->name . '/' . request()->version;
-        $validated['version_log'] = request()->version_log->store($storage_path, $driver);
+        if (request()->version_log) $validated['version_log'] = request()->version_log->store($storage_path, $driver);
         $validated['path'] = request()->firmwareFile->store($storage_path, $driver);
         $firmware_obj = $device->firmwares()->create($validated);
         return redirect()->route('admin.projects.firmwares.list', [$device->project, $device]);
@@ -51,7 +58,7 @@ class FirmwareController extends Controller
     public function update(Project $project, Firmware $firmware)
     {
         $validated = request()->validate([
-            'version' => "required|unique:firmwares,version,{$firmware->id}",
+            'version' => "required",
             'release' => 'required|date',
             'support_version_oldest' => 'nullable|string',
             'support_version_newest' => 'nullable|string',
@@ -59,6 +66,13 @@ class FirmwareController extends Controller
             'version_log' => 'nullable|file',
             'firmwareFile' => 'nullable|file'
         ]);
+        $old_firmware = $firmware->device->firmwares()->where('id', '!=', $firmware->id)
+            ->whereVersion($validated['version'])->first();
+        if ($old_firmware) {
+            throw ValidationException::withMessages([
+                'name' => 'The version has already been taken.'
+            ]);
+        }
         $driver = 'public';
         $storage_path  = 'firmwares/' . $firmware->device->name . '/' . request()->version;
         if (request()->version_log)
@@ -85,12 +99,12 @@ class FirmwareController extends Controller
         $response = null;
         $file_prefix = $device->name . '-v' . $version;
         $download_name = null;
-        if ($action === 'firmware') {
+        if ($action === 'firmware' && $firmware->path) {
             $ext = pathinfo($firmware->path)['extension'];
             $download_name = $file_prefix . '.' . $ext;
             $response = Storage::disk('public')->path($firmware->path);
         }
-        if ($action === 'version_log') {
+        if ($action === 'version_log' && $firmware->version_log) {
             $ext = pathinfo($firmware->version_log)['extension'];
             $download_name = $file_prefix . '-change-log' . '.' . $ext;
             $response = Storage::disk('public')->path($firmware->version_log);
