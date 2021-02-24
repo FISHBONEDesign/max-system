@@ -14,7 +14,12 @@ class ProjectController extends Controller
 
     public function index()
     {
-        return view('projects.index', ['user' => auth()->user()]);
+        $user = auth()->user();
+        if ($user->email === 'admin@email.com')
+            $projects = Project::all();
+        else
+            $projects = $user->projects;
+        return view('projects.index', compact('user', 'projects'));
     }
 
     public function create()
