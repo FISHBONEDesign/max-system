@@ -12,8 +12,10 @@ window.init_window_function = () => {
         window.$ = window.jQuery = require('jquery');
 
         require('bootstrap');
+        require('select2');
         require('./custom-file-input');
         require('./sidebar');
+        require('./select2');
     } catch (e) { }
 };
 

@@ -1,6 +1,6 @@
 require('./bootstrap');
-var Turbolinks = require('turbolinks');
-Turbolinks.start();
+// var Turbolinks = require('turbolinks');
+// Turbolinks.start();
 
 if (typeof init_counter === 'undefined') init_counter = 0;
 if (typeof Inited === 'undefined') Inited = false;

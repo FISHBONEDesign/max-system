@@ -26,6 +26,7 @@
         "@fortawesome/fontawesome-free": "^5.15.2",
         "autoprefixer": "^10.2.4",
         "postcss": "^8.2.4",
+        "select2": "^4.1.0-rc.0",
         "tailwindcss": "^2.0.2",
         "turbolinks": "^5.2.0"
     }
