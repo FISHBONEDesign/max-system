@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Folder;
-use App\Project;
+use App\Models\Folder;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
