@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Device;
+use App\Models\Device;
 use App\Http\Controllers\Controller;
-use App\Project;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class UpdateController extends Controller

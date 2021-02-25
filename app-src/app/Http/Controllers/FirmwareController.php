@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Device;
-use App\Firmware;
-use App\Project;
+use App\Models\Device;
+use App\Models\Firmware;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
