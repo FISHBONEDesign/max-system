@@ -46,6 +46,8 @@ Route::prefix('admin')->group(function () {
             return redirect()->route('admin.projects.index');
         })->name('home');
 
+        Route::resource('groups', 'GroupController');
+
         Route::prefix('/projects')->name('projects.')->group(function () {
             Route::get('/', 'ProjectController@index')->name('index');
             Route::post('/', 'ProjectController@store')->name('store');
