@@ -20,8 +20,8 @@ class ProjectController extends Controller
             $projects = Project::all();
         else
             $projects = $user->projects;
-        $projects = Project::all()->filter(function ($project) {
-            return Gate::allows('view-project', $project);
+        $projects = Project::all()->filter(function ($project) use ($user) {
+            return $user->can('view', $project);
         });
         return view('projects.index', compact('user', 'projects'));
     }
