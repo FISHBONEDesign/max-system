@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
 {
@@ -19,6 +20,9 @@ class ProjectController extends Controller
             $projects = Project::all();
         else
             $projects = $user->projects;
+        $projects = Project::all()->filter(function ($project) {
+            return Gate::allows('view-project', $project);
+        });
         return view('projects.index', compact('user', 'projects'));
     }
 
