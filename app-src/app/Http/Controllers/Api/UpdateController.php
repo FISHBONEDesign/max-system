@@ -36,7 +36,8 @@ class UpdateController extends Controller
             'version' => $firmware->version,
             'release-date'=> $firmware->release,
             'change-log' => ($firmware->version_log ? route('download.firmware', [$project->name, $firmware->device->name, $firmware->version, 'version_log']) : ''),
-            'firmware' => route('download.firmware', [$project->name, $firmware->device->name, $firmware->version, 'firmware'])
+            'firmware' => route('download.firmware', [$project->name, $firmware->device->name, $firmware->version, 'firmware']),
+            'checksum' => $firmware->checksum
         ];
         return response()->json($response, $firmware ? 200 : 404);
     }
