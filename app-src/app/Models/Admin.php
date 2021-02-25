@@ -54,4 +54,9 @@ class Admin extends Authenticatable
     {
         return $this->id === 1;
     }
+
+    public function getIsSupervisorAttribute($value)
+    {
+        return $this->isSupervisor();
+    }
 }
