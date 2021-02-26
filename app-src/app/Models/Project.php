@@ -10,7 +10,7 @@ class Project extends Model
 
     public function owner()
     {
-        return $this->belongsTo(Admin::class, 'user_id');
+        return $this->belongsTo(Admin::class, 'admin_id');
     }
 
     public function folders()
