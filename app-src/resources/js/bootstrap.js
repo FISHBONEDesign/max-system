@@ -6,10 +6,6 @@ window._ = require('lodash');
  * code may be modified to fit the specific needs of your application.
  */
 
-window.init_page_function = () => {
-    require('./select2');
-};
-
 window.init_window_function = () => {
     try {
         window.Popper = require('popper.js').default;
@@ -17,10 +13,10 @@ window.init_window_function = () => {
 
         require('bootstrap');
         require('select2');
+
         require('./custom-file-input');
         require('./sidebar');
-        $(document).ready(init_page_function);
-        $(document).on('turbolinks:load', init_page_function);
+        require('./select2');
     } catch (e) { }
 };
 
