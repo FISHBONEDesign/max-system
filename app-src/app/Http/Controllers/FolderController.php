@@ -24,6 +24,7 @@ class FolderController extends Controller
             'folder' => $folder
         ]);
     }
+
     public function create(Project $project, Folder $folder = null)
     {
         $folder = new Folder([
