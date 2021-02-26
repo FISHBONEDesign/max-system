@@ -13,6 +13,7 @@ window.init_window_function = () => {
 
         require('bootstrap');
         require('select2');
+
         require('./custom-file-input');
         require('./sidebar');
         require('./select2');
