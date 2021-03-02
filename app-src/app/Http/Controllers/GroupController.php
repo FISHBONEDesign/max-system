@@ -46,7 +46,7 @@ class GroupController extends Controller
 
     public function update(Group $group)
     {
-        $group->update($this->validate_model(request()));
+        $group->update($this->validate_model(request(), $group->id));
         return redirect()->route('admin.groups.index');
     }
 
@@ -70,7 +70,7 @@ class GroupController extends Controller
         });
     }
 
-    private function validate_model(Request $request)
+    private function validate_model(Request $request, $ignore_id = null)
     {
         $data = $request->validate([
             'name' => 'required',
@@ -84,7 +84,7 @@ class GroupController extends Controller
             ]);
         }
         $instance = $model::find($request->model_id);
-        $group = Group::where([
+        $group = Group::where('id', '!=', $ignore_id)->where([
             'model_name' => $request->model_name,
             'model_id' => $request->model_id
         ])->first();
