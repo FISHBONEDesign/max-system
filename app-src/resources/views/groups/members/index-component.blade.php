@@ -15,7 +15,7 @@
                 $delete_form_id = "group-{$member->group->id}-member-{$member->id}-delete";
             @endphp
             <button type="button" class="btn btn-danger"
-                onclick="if (window.confirm('are you sure remove {{ $member->name }} from {{ $member->group->name }}?')) document.querySelector('form#{{ $delete_form_id }}').submit();">
+                onclick="if (window.confirm('are you sure remove {{ addslashes($member->name) }} from {{ addslashes($member->group->name) }}?')) document.querySelector('form#{{ $delete_form_id }}').submit();">
                 <i class="fas fa-trash-alt"></i> Remove User
             </button>
             <form id="{{ $delete_form_id }}" method="post"
