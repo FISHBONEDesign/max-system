@@ -7,11 +7,11 @@ let init_select2 = (event) => {
     });
 };
 
-let interval, counter = 0, limit = 100;
+let interval, counter = 0, limit = 10000;
 interval = window.setInterval(function () {
-    let styles = document.styleSheets;
+    let styles = document.styleSheets, result;
     for (let index = 0; index < styles.length; index++) {
-        let classes, result, list = ['rules', 'cssRules'];
+        let classes, list = ['rules', 'cssRules'];
         list.map((item) => {
             try {
                 classes = styles[index][item];
@@ -23,11 +23,10 @@ interval = window.setInterval(function () {
                 else continue;
             }
         });
-        if (result) {
-            window.clearInterval(interval);
-            init_select2();
-        }
     }
     counter++;
-    if (counter >= limit) window.clearInterval(interval);
+    if (result || (counter >= limit)) {
+        window.clearInterval(interval);
+        init_select2();
+    }
 }, 1);
