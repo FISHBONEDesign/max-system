@@ -27,4 +27,12 @@ class Project extends Model
     {
         return $this->folders->concat($this->devices);
     }
+
+    public function getGroupAttribute($value)
+    {
+        return Group::where([
+            'model_name' => self::class,
+            'model_id' => $this->id
+        ])->first();
+    }
 }

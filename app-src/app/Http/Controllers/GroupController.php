@@ -11,6 +11,11 @@ class GroupController extends Controller
     public function index()
     {
         $groups = Group::all();
+        $user = auth()->user();
+        if (!auth()->user()->isSupervisor)
+            $groups = $groups->filter(function ($group) use ($user) {
+                return $group->hasAdmin($user);
+            });
 
         return view('groups.index', compact('groups'));
     }
