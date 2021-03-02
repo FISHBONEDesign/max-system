@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -39,6 +40,15 @@ class ProjectController extends Controller
             ->create(request()->validate([
                 'name' => 'required'
             ]));
+        $group = Group::create([
+            'name' => 'Group for ' . $project->name,
+            'model_name' => Project::class,
+            'model_id' => $project->id
+        ]);
+        $group->members()->create([
+            'admin_id' => auth()->user()->id,
+            'edit' => true
+        ]);
         return redirect()->route('admin.projects.show', $project);
     }
 
@@ -61,6 +71,8 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->folders()->delete();
+        $project->group->members()->delete();
+        $project->group->delete();
         $project->delete();
         return redirect()->route('admin.home');
     }

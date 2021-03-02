@@ -22,4 +22,9 @@ class Group extends Model
     {
         return $this->hasMany(Member::class);
     }
+
+    public function hasAdmin(Admin $user)
+    {
+        return !!$this->members->pluck('user')->pluck('id')->contains($user->id);
+    }
 }
