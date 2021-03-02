@@ -39,6 +39,14 @@ Route::prefix('admin')->group(function () {
                 Route::get('/reset/{token}', 'ResetPasswordController@showResetForm')->name('reset');
             });
         });
+
+        Route::middleware('auth:admin')->group(function () {
+            Route::get('/profile', 'AdminController@show')->name('profile');
+            Route::get('/profile/edit', 'AdminController@edit')->name('profile.edit');
+            Route::patch('/profile', 'AdminController@update')->name('profile.update');
+            Route::middleware('admin.password.confirm')->get('/password', 'AdminController@showPassword')->name('passwords.show');
+            Route::patch('/password', 'AdminController@updatePassword')->name('passwords.update');
+        });
     });
 
     Route::middleware('auth:admin')->name('admin.')->group(function () {
