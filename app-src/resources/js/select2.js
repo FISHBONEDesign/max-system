@@ -7,6 +7,9 @@ let init_select2 = (event) => {
     });
 };
 
+// for turbolink
+$(document).on('turbolinks:load', init_select2);
+
 let interval, counter = 0, limit = 10000;
 interval = window.setInterval(function () {
     let styles = document.styleSheets, result;
