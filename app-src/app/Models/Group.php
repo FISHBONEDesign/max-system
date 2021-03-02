@@ -17,4 +17,9 @@ class Group extends Model
     {
         return $this->model_name::find($this->model_id)->name;
     }
+
+    public function members()
+    {
+        return $this->hasMany(Member::class);
+    }
 }
