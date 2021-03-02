@@ -48,6 +48,8 @@ Route::prefix('admin')->group(function () {
 
         Route::resource('groups', 'GroupController');
 
+        Route::name('groups')->resource('/groups/{group}/members', 'Group\MemberController');
+
         Route::prefix('/projects')->name('projects.')->group(function () {
             Route::get('/', 'ProjectController@index')->name('index');
             Route::post('/', 'ProjectController@store')->name('store');
