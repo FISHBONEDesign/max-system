@@ -10,9 +10,9 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user)
+    public function before(User $user, $ability = null)
     {
-        if ($user->isSupervisor()) {
+        if ($user->isSupervisor() && false) {
             return true;
         }
     }
@@ -25,7 +25,7 @@ class ProjectPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return $user->id === $project->user_id;
+        return $project->group->hasAdmin($user);
     }
 
     /**
@@ -48,7 +48,7 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -60,7 +60,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        //
+        return $project->group->canAdminEdit($user);
     }
 
     /**
@@ -72,7 +72,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        //
+        return $project->group->canAdminEdit($user);
     }
 
     /**

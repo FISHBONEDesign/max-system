@@ -32,6 +32,7 @@ class Member extends Model
 
     public function getEditAttribute($value)
     {
-        return $value ? 'true' : 'false';
+        if($value === 1) return true;
+        else return false;
     }
 }

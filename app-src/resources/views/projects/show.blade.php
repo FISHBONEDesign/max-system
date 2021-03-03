@@ -1,13 +1,18 @@
 <div class="card mb-2">
     <div class="card-header">{{ $project->name }} &nbsp;&nbsp;&nbsp;
-        <a href="{{ route('admin.projects.edit', $project) }}" class="text-success">
-            <i class="fas fa-edit"></i>
-        </a>
-        <button type="button" class="text-danger"
-            onclick="event.preventDefault(); if (window.confirm('are you sure to delete the project and contents?')) document.getElementById('delete-project-{{ $project->id }}').submit();">
-            <i class="fas fa-trash-alt"></i>
-        </button>
-        <form id="delete-project-{{ $project->id }}" method="post" action="{{ route('admin.projects.destroy', $project) }}">
+        @can('update', $project)
+            <a href="{{ route('admin.projects.edit', $project) }}" class="text-success">
+                <i class="fas fa-edit"></i>
+            </a>
+        @endcan
+        @can('delete', $project)
+            <button type="button" class="text-danger"
+                onclick="event.preventDefault(); if (window.confirm('are you sure to delete the project and contents?')) document.getElementById('delete-project-{{ $project->id }}').submit();">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        @endcan
+        <form id="delete-project-{{ $project->id }}" method="post"
+            action="{{ route('admin.projects.destroy', $project) }}">
             @csrf
             @method('delete')
         </form>
