@@ -12,6 +12,7 @@ class FolderController extends Controller
 
     public function show(Project $project, Folder $folder = null)
     {
+        $this->authorize('view', $project);
         if ($folder === null) {
             $folder = new Folder([
                 'project_id' => $project->id,
@@ -27,6 +28,7 @@ class FolderController extends Controller
 
     public function create(Project $project, Folder $folder = null)
     {
+        $this->authorize('update', $project);
         $folder = new Folder([
             'project_id' => $project->id,
             'parent_id' => $folder ? $folder->id : 0
@@ -36,6 +38,7 @@ class FolderController extends Controller
 
     public function store(Project $project, Folder $folder = null)
     {
+        $this->authorize('update', $project);
         $router_parameters = [$project];
         $data = request()->validate([
             'name' => 'required'
@@ -74,11 +77,13 @@ class FolderController extends Controller
 
     public function edit(Project $project, Folder $folder)
     {
+        $this->authorize('update', $project);
         return view('projects.folders.edit', compact('folder'));
     }
 
     public function update(Project $project, Folder $folder)
     {
+        $this->authorize('update', $project);
         $data = request()->validate(['name' => 'required']);
         $data['project_id'] = $folder->project_id;
         $data['parent_id'] = $folder->parent_id;
@@ -102,6 +107,7 @@ class FolderController extends Controller
 
     public function destroy(Project $project, Folder $folder)
     {
+        $this->authorize('update', $project);
         $route = route('admin.projects.folders.show', $folder->project, $folder->parent);
         $this->delete_folder($folder);
         return redirect($route);

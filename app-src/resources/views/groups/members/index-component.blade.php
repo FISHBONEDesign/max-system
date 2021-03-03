@@ -6,7 +6,7 @@
             <div class="mb-2">
                 <a href="{{ route('admin.groups.members.edit', [$member->group, $member]) }}">
                     Name: {{ $member->name }} <br>
-                    Editable: {{ $member->edit }} <br>
+                    Editable: {{ $member->edit ? 'true' : 'false' }} <br>
                     created at: {{ $member->created_at }} <br>
                     updated at: {{ $member->updated_at }}
                 </a>

@@ -27,4 +27,9 @@ class Group extends Model
     {
         return !!$this->members->pluck('user')->pluck('id')->contains($user->id);
     }
+
+    public function canAdminEdit(Admin $user)
+    {
+        return $this->hasAdmin($user) ? $this->members()->where(['admin_id' => $user->id])->first()->edit : false;
+    }
 }

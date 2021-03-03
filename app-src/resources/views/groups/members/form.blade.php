@@ -31,7 +31,7 @@
         <div class="offset-2 col-sm-2">
             <div class="form-check">
                 @php
-                    $checked = $member->edit === 'true' ? 'checked' : '';
+                    $checked = $member->edit === true ? 'checked' : '';
                 @endphp
                 <input class="form-check-input" type="checkbox" name="editable" id="editable" {{ $checked }}>
                 <label class="form-check-label" for="editable">
