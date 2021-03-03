@@ -4,7 +4,7 @@
         <a href="{{ route('admin.home') }}" class="list-group-item list-group-item-action @if (request()->is('admin/projects')) active @else bg-light @endif">Dashboard</a>
 
         {{-- Projects --}}
-        @forelse (auth()->user()->projects as $project)
+        @forelse (auth('admin')->user()->projects as $project)
             @php
                 $name = $project->name;
                 $path = route('admin.projects.show', $project);
@@ -16,7 +16,7 @@
         @endforelse
 
         {{-- Shared Projects --}}
-        @forelse (auth()->user()->shared_projects as $project)
+        @forelse (auth('admin')->user()->shared_projects as $project)
             @php
                 $name = $project->name;
                 $path = route('admin.projects.show', $project);

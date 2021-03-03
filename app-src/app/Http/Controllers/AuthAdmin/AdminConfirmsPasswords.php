@@ -4,7 +4,8 @@ namespace App\Http\Controllers\AuthAdmin;
 
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
 
-trait AdminConfirmsPasswords{
+trait AdminConfirmsPasswords
+{
     use ConfirmsPasswords;
 
     /**
