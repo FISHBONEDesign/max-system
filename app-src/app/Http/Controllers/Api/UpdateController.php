@@ -6,6 +6,7 @@ use App\Models\Device;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateController extends Controller
 {
@@ -35,7 +36,7 @@ class UpdateController extends Controller
             'device' => $firmware ? $firmware->device->name : '',
             'version' => $firmware->version,
             'release-date'=> $firmware->release,
-            'change-log' => ($firmware->version_log ? route('download.firmware', [$project->name, $firmware->device->name, $firmware->version, 'version_log']) : ''),
+            'change-log' => ($firmware->version_log ? Storage::disk('public')->get($firmware->version_log) : ''),
             'firmware' => route('download.firmware', [$project->name, $firmware->device->name, $firmware->version, 'firmware']),
             'checksum' => $firmware->checksum
         ];
