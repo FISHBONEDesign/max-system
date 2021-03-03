@@ -2,8 +2,7 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">Profile <a href="{{ route('auth.admin.profile.edit') }}" class="ml-2 text-success"><i
-                    class="fas fa-edit"></i></a></div>
+        <div class="card-header">Edit Profile</div>
 
         <div class="card-body">
             <form method="POST" action="{{ route('auth.admin.profile.update') }}">
@@ -44,7 +43,7 @@
 
                     <div class="col-md-6">
                         <div class="form-control border-0">
-                            <a href="{{ route('auth.admin.passwords.show') }}">Change Password</a>
+                            <a class="btn-link" href="{{ route('auth.admin.passwords.show') }}">Change Password</a>
                         </div>
                     </div>
                 </div>

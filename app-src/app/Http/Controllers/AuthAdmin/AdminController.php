@@ -17,6 +17,11 @@ class AdminController extends Controller
         return view('authadmin.profile-edit', ['user' => auth()->user()]);
     }
 
+    public function showPassword()
+    {
+        return view('authadmin.passwords.password-edit');
+    }
+
     public function update()
     {
         $ignore_id = auth()->user()->id;
@@ -24,6 +29,16 @@ class AdminController extends Controller
             'name' => 'required',
             'email' => ['required', "unique:admins,email,{$ignore_id}"]
         ]));
+        return redirect()->route('auth.admin.profile');
+    }
+
+    public function updatePassword()
+    {
+        $data = request()->validate([
+            'password' => ['required', 'confirmed']
+        ]);
+        $data['password'] = bcrypt($data['password']);
+        auth('admin')->user()->update($data);
         return redirect()->route('auth.admin.profile');
     }
 }
