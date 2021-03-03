@@ -4,10 +4,11 @@
     @include('projects.show', ['project' => $device->project])
     <div class="mb-2">
         <a href="{{ route('admin.projects.folders.show', [$device->project, $device->folder]) }}"
-            class="btn btn-outline-dark">
-            < Back</a>
-                <a href="{{ route('admin.projects.firmwares.create', [$device->project, $device]) }}"
-                    class="btn btn-primary">New Firmware</a>
+            class="btn btn-outline-dark">{{ '< Back' }}</a>
+        @can('update', $device->project)
+            <a href="{{ route('admin.projects.firmwares.create', [$device->project, $device]) }}" class="btn btn-primary">New
+                Firmware</a>
+        @endcan
     </div>
     <div class="card">
         <div class="card-header">{{ $device->name }} firmwares:</div>
@@ -22,21 +23,23 @@
                         </span>
                     </a>
                     <span class="text-gray-400">(release at: {{ $firmware->release }})</span>
-                    <span class="badge-pill">
-                        <a href="{{ route('admin.projects.firmwares.edit', [$device->project, $firmware]) }}"
-                            class="btn text-success">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <button type="button" class="btn text-danger"
-                            onclick="event.preventDefault();if (window.confirm('comfirm to delete this firmware?')) document.getElementById('delete-firmware-{{ $firmware->id }}').submit();console.log();">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                        <form id="delete-firmware-{{ $firmware->id }}" class="d-none" method="post"
-                            action="{{ route('admin.projects.firmwares.destroy', [$device->project, $firmware]) }}">
-                            @csrf
-                            @method('delete')
-                        </form>
-                    </span>
+                    @can('update', $device->project)
+                        <span class="badge-pill">
+                            <a href="{{ route('admin.projects.firmwares.edit', [$device->project, $firmware]) }}"
+                                class="btn text-success">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button type="button" class="btn text-danger"
+                                onclick="event.preventDefault();if (window.confirm('comfirm to delete this firmware?')) document.getElementById('delete-firmware-{{ $firmware->id }}').submit();console.log();">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <form id="delete-firmware-{{ $firmware->id }}" class="d-none" method="post"
+                                action="{{ route('admin.projects.firmwares.destroy', [$device->project, $firmware]) }}">
+                                @csrf
+                                @method('delete')
+                            </form>
+                        </span>
+                    @endcan
                     @component('components.collapse-content', ['id' => 'firmware-' . $firmware->id])
                         <div class="card-body">
                             <a href="{{ route('download.firmware', [$firmware->device->project->name, $firmware->device->name, $firmware->version, 'firmware']) }}"

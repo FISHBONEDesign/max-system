@@ -15,11 +15,13 @@ class FirmwareController extends Controller
 {
     public function list(Project $project, Device $device)
     {
+        $this->authorize('view', $project);
         return view('firmwares.index', compact('device'));
     }
 
     public function create(Project $project, Device $device)
     {
+        $this->authorize('update', $project);
         $firmware = new Firmware();
         $firmware->device_id = $device->id;
         return view('firmwares.create', compact('firmware'));
@@ -27,6 +29,7 @@ class FirmwareController extends Controller
 
     public function store(Project $project, Device $device)
     {
+        $this->authorize('update', $project);
         $validated = request()->validate([
             'version' => 'required',
             'release' => 'required|date',
@@ -52,11 +55,13 @@ class FirmwareController extends Controller
 
     public function edit(Project $project, Firmware $firmware)
     {
+        $this->authorize('update', $project);
         return view('firmwares.edit', compact('firmware'));
     }
 
     public function update(Project $project, Firmware $firmware)
     {
+        $this->authorize('update', $project);
         $validated = request()->validate([
             'version' => "required",
             'release' => 'required|date',
@@ -86,6 +91,7 @@ class FirmwareController extends Controller
 
     public function destroy(Project $project, Firmware $firmware)
     {
+        $this->authorize('update', $project);
         $device = $firmware->device;
         $firmware->delete();
         return redirect()->route('admin.projects.firmwares.list', [$project, $device]);

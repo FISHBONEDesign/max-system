@@ -17,6 +17,7 @@ class DeviceController extends Controller
 
     public function create(Project $project, Folder $folder = null)
     {
+        $this->authorize('update', $project);
         $folder = $folder ? $folder : new Folder();
         $device = new Device;
         $device->project_id = $project->id;
@@ -26,11 +27,13 @@ class DeviceController extends Controller
 
     public function edit(Project $project, DEvice $device)
     {
+        $this->authorize('update', $project);
         return view('devices.edit')->with('device', $device);
     }
 
     public function store(Project $project, Request $request)
     {
+        $this->authorize('update', $project);
         $data = $request->validate([
             'name' => ['required'],
             'path' => ['required']
@@ -46,6 +49,7 @@ class DeviceController extends Controller
 
     public function update(Project $project, Device $device)
     {
+        $this->authorize('update', $project);
         $data = request()->validate([
             'name' => ['required'],
             'path' => ['required']
@@ -79,6 +83,7 @@ class DeviceController extends Controller
 
     public function destroy(Project $project, Device $device)
     {
+        $this->authorize('update', $project);
         $route = route('admin.projects.folders.show', [$device->project, $device->folder]);
         $device->delete();
         return redirect($route);
