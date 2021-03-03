@@ -43,7 +43,7 @@
 
                     <div class="col-md-6">
                         <div class="form-control border-0">
-                            <a class="btn-link" href="{{ route('auth.admin.passwords.show') }}">Change Password</a>
+                            <a class="btn-link" data-turbolinks="false" href="{{ route('auth.admin.passwords.show') }}">Change Password</a>
                         </div>
                     </div>
                 </div>
