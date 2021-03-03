@@ -12,7 +12,7 @@ class ProjectPolicy
 
     public function before(User $user, $ability = null)
     {
-        if ($user->isSupervisor() && false) {
+        if ($user->isSupervisor()) {
             return true;
         }
     }
