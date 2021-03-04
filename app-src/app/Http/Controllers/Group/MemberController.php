@@ -12,11 +12,13 @@ class MemberController extends Controller
 {
     public function index(Group $group)
     {
+        $this->authorize('view', $group);
         return view('groups.members.index', compact('group'));
     }
 
     public function create(Group $group)
     {
+        $this->authorize('update', $group);
         $member = new Member();
         $member->group_id = $group->id;
         return view('groups.members.create', compact('member'));
@@ -24,11 +26,13 @@ class MemberController extends Controller
 
     public function edit(Group $group, Member $member)
     {
+        $this->authorize('update', $group);
         return view('groups.members.edit', compact('member'));
     }
 
     public function store(Group $group, Request $request)
     {
+        $this->authorize('update', $group);
         $data = $request->validate([
             'admin_id' => 'required|int|exists:admins,id'
         ]);
@@ -45,6 +49,7 @@ class MemberController extends Controller
 
     public function update(Group $group, Member $member)
     {
+        $this->authorize('update', $group);
         $member->update([
             'edit' => request()->has('editable')
         ]);
@@ -53,6 +58,7 @@ class MemberController extends Controller
 
     public function destroy(Group $group, Member $member)
     {
+        $this->authorize('update', $group);
         $member->delete();
         return redirect()->route('admin.groups.show', $group);
     }

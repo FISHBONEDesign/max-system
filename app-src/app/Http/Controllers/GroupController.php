@@ -8,14 +8,17 @@ use Illuminate\Validation\ValidationException;
 
 class GroupController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Group::class, 'group');
+    }
+
     public function index()
     {
         $groups = Group::all();
-        $user = auth()->user();
-        if (!auth()->user()->isSupervisor)
-            $groups = $groups->filter(function ($group) use ($user) {
-                return $group->hasAdmin($user);
-            });
+        $groups = $groups->filter(function ($group) {
+            return auth('admin')->user()->can('view', $group);
+        });
 
         return view('groups.index', compact('groups'));
     }
