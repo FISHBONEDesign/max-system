@@ -19,7 +19,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    {{-- <script src="{{ asset('js/test.js') }}" defer></script> --}}
 
     @yield('head')
 </head>

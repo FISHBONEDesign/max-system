@@ -23,7 +23,7 @@ class UpdateController extends Controller
     private function fetch_firmware($project, $request)
     {
         $version = $request->version;
-        $firmware = $project->devices()->whereName($request->device)->first()
+        $firmware = $project->devices()->whereName($request->device)->firstOrFail()
             ->firmwares()->where('release', '<=', now())->latest()->get()
             ->filter(function ($firmware) use ($version) {
                 $filtered = true;
