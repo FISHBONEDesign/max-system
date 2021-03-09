@@ -26,7 +26,7 @@ class UpdateController extends Controller
         $firmware = $project->devices()->whereName($request->device)->firstOrFail()
             ->firmwares()->where('release', '<=', now())->latest()->get()
             ->filter(function ($firmware) use ($version) {
-                $filtered = true;
+                $filtered = $firmware->version > $version;
                 if ($firmware->support_version_oldest) $filtered &= $firmware->support_version_oldest <= $version;
                 if ($firmware->support_version_newest) $filtered &= $firmware->support_version_newest >= $version;
                 return $filtered;
@@ -35,7 +35,7 @@ class UpdateController extends Controller
         $response = [
             'device' => $firmware ? $firmware->device->name : '',
             'version' => $firmware->version,
-            'release'=> $firmware->release,
+            'release' => $firmware->release,
             'change_log' => ($firmware->version_log ? Storage::disk('public')->get($firmware->version_log) : ''),
             'firmware' => route('download.firmware', [$project->name, $firmware->device->name, $firmware->version, 'firmware']),
             'checksum' => $firmware->checksum
