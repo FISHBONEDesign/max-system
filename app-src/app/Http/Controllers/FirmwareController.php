@@ -46,7 +46,7 @@ class FirmwareController extends Controller
             ]);
         }
         $driver = 'public';
-        $storage_path  = 'firmwares/' . $device->name . '/' . request()->version;
+        $storage_path = 'firmwares/' . $device->name . '/' . request()->version;
         if (request()->version_log) $validated['version_log'] = request()->version_log->store($storage_path, $driver);
         $validated['path'] = request()->firmwareFile->store($storage_path, $driver);
         $firmware_obj = $device->firmwares()->create($validated);
@@ -117,6 +117,7 @@ class FirmwareController extends Controller
         }
         if ($response === null) abort(404);
         $response = new BinaryFileResponse($response);
+        $response->headers->set('Cache-Control', 'no-cache, must-revalidate');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $download_name);
         return $response;
     }
