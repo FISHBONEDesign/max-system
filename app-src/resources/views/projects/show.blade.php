@@ -1,11 +1,14 @@
 <div class="card mb-2">
     <div class="card-header">{{ $project->name }} &nbsp;&nbsp;&nbsp;
-        @can('update', $project)
-            <a href="{{ route('admin.projects.edit', $project) }}" class="text-success">
-                <i class="fas fa-edit"></i>
-            </a>
-        @endcan
-        @can('delete', $project)
+        @canany(['admin', 'manager'])
+            @if (auth('admin')->user()->id !== $project->owner->id)
+            @else
+                <a href="{{ route('admin.projects.edit', $project) }}" class="text-success">
+                    <i class="fas fa-edit"></i>
+                </a>
+            @endif
+        @endcanany
+        @can('admin')
             <button type="button" class="text-danger"
                 onclick="event.preventDefault(); if (window.confirm('are you sure to delete the project and contents?')) document.getElementById('delete-project-{{ $project->id }}').submit();">
                 <i class="fas fa-trash-alt"></i>
@@ -19,6 +22,7 @@
     </div>
 
     <div class="card-body">
+        project manager: {{ $project->owner->name }} <br><br>
         created at: {{ $project->created_at }} <br>
         updated at: {{ $project->updated_at }} <br>
     </div>

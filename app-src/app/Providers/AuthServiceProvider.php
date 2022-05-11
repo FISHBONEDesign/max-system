@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Middleware\AdminRequirePassword;
+use App\Models\Admin;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -58,6 +59,21 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::guessPolicyNamesUsing(function ($modelClass) {
             return 'App\\Policies\\' . class_basename($modelClass) . 'Policy';
+        });
+
+        // 系統管理者 Gate 規則
+        Gate::define('admin', function ($user) {
+            return $user->role === Admin::ROLE_ADMIN;
+        });
+
+        // 一般管理者 Gate 規則
+        Gate::define('manager', function ($user) {
+            return $user->role === Admin::ROLE_MANAGER;
+        });
+
+        // 一般使用者 Gate 規則
+        Gate::define('user', function ($user) {
+            return $user->role === Admin::ROLE_USER;
         });
     }
 }

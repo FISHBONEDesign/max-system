@@ -12,13 +12,18 @@ class Admin extends Authenticatable
 {
     use Notifiable, HasProject;
 
+    public const ROLE_ADMIN = 'admin';
+    public const ROLE_MANAGER = 'manager';
+    public const ROLE_USER = 'user';
+    public const ROLE_GUEST = 'guest';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role',
     ];
 
     /**
