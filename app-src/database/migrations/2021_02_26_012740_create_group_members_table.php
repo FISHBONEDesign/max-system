@@ -29,6 +29,7 @@ class CreateGroupMembersTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('group_members');
     }
 }
