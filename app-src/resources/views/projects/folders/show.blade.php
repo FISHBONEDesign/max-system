@@ -22,7 +22,9 @@ if ($folder && $folder->id !== 0) {
 @endphp
 
 @section('content')
+    <h1 class="text-2xl mb-2">Project Name</h1>
     @include('projects.show')
+    <h1 class="text-2xl mb-2">Project Content</h1>
     <div class="card mb-2">
         <div class="card-header">Folders & Devices</div>
         <div class="card-body">
@@ -100,5 +102,6 @@ if ($folder && $folder->id !== 0) {
             </ul>
         </div>
     </div>
-    {{-- @include('projects.member') --}}
+    <h1 class="text-2xl mb-2">Project Member</h1>
+    @include('projects.member')
 @endsection
