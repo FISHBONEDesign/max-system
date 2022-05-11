@@ -32,4 +32,9 @@ class Group extends Model
     {
         return $this->hasAdmin($user) ? $this->members()->where(['admin_id' => $user->id])->first()->edit : false;
     }
+
+    public function projects()
+    {
+        return $this->belongsTo(Project::class, 'model_id');
+    }
 }

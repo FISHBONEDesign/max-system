@@ -18,13 +18,14 @@ class ProjectController extends Controller
     public function index()
     {
         $user = auth()->user();
-        if ($user->email === 'admin@email.com')
+        if ($user->email === 'admin@email.com') {
             $projects = Project::all();
-        else
+        } else {
             $projects = $user->projects;
-        $projects = Project::all()->filter(function ($project) use ($user) {
-            return $user->can('view', $project);
-        });
+        };
+        // $projects = Project::all()->filter(function ($project) use ($user) {
+        //     return $user->can('view', $project);
+        // });
         return view('projects.index', compact('user', 'projects'));
     }
 
