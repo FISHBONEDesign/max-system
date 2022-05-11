@@ -52,7 +52,7 @@
                 </div>
             @empty
                 <div class="card-body">No any project found.</div>
-    @endforelse
-    </div>
+            @endforelse
+        </div>
     @endif
 @endsection
