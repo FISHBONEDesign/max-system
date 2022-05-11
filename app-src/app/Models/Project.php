@@ -35,4 +35,11 @@ class Project extends Model
             'model_id' => $this->id
         ])->first();
     }
+
+    public function getMemberAttribute($value)
+    {
+        return Member::where([
+            'group_id' => $this->group->id,
+        ])->get();
+    }
 }
