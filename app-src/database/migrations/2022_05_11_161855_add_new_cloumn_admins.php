@@ -15,7 +15,7 @@ class AddNewCloumnAdmins extends Migration
     public function up()
     {
         Schema::table('admins', function (Blueprint $table) {
-            $table->string('role')->default(Admin::ROLE_GUEST);
+            $table->string('role')->default(Admin::ROLE_USER);
         });
     }
 
