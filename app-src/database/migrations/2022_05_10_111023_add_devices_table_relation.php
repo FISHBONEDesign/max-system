@@ -18,10 +18,10 @@ class AddDevicesTableRelation extends Migration
                   ->references('id')
                   ->on('projects')
                   ->onDelete('cascade');
-            $table->foreign('folder_id')
-                  ->references('id')
-                  ->on('folders')
-                  ->onDelete('cascade');
+            // $table->foreign('folder_id')
+            //       ->references('id')
+            //       ->on('folders')
+            //       ->onDelete('cascade');
         });
     }
 
