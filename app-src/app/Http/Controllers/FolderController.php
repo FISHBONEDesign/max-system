@@ -9,7 +9,13 @@ use Illuminate\Validation\ValidationException;
 
 class FolderController extends Controller
 {
-
+    /**
+     * 顯示專案頁面
+     *
+     * @param Project $project
+     * @param Folder|null $folder
+     * @return void
+     */
     public function show(Project $project, Folder $folder = null)
     {
         $this->authorize('view', $project);
@@ -26,6 +32,13 @@ class FolderController extends Controller
         ]);
     }
 
+    /**
+     * 建立專案資料夾
+     *
+     * @param Project $project
+     * @param Folder|null $folder
+     * @return void
+     */
     public function create(Project $project, Folder $folder = null)
     {
         $this->authorize('update', $project);
@@ -36,6 +49,13 @@ class FolderController extends Controller
         return view('projects.folders.create', ['folder' => $folder]);
     }
 
+    /**
+     * 儲存建立專案資料夾
+     *
+     * @param Project $project
+     * @param Folder|null $folder
+     * @return void
+     */
     public function store(Project $project, Folder $folder = null)
     {
         $this->authorize('update', $project);
@@ -71,16 +91,31 @@ class FolderController extends Controller
                 $folder = $new_folder;
             }
         }
+
         $router_parameters[] = $folder;
         return redirect()->route('admin.projects.folders.show', $router_parameters);
     }
 
+    /**
+     * 更新資料夾
+     *
+     * @param Project $project
+     * @param Folder $folder
+     * @return void
+     */
     public function edit(Project $project, Folder $folder)
     {
         $this->authorize('update', $project);
         return view('projects.folders.edit', compact('folder'));
     }
 
+    /**
+     * 儲存更新專案資料夾
+     *
+     * @param Project $project
+     * @param Folder $folder
+     * @return void
+     */
     public function update(Project $project, Folder $folder)
     {
         $this->authorize('update', $project);
@@ -105,18 +140,31 @@ class FolderController extends Controller
         return redirect()->route('admin.projects.folders.show', [$folder->project, $folder->parent]);
     }
 
+    /**
+     * 刪除專案資料夾
+     *
+     * @param Project $project
+     * @param Folder $folder
+     * @return void
+     */
     public function destroy(Project $project, Folder $folder)
     {
         $this->authorize('update', $project);
         $route = route('admin.projects.folders.show', $folder->project, $folder->parent);
-        $this->delete_folder($folder);
+        $this->deleteFolder($folder);
         return redirect($route);
     }
 
-    private function delete_folder(Folder $folder)
+    /**
+     * 尋訪要刪除的資料夾
+     *
+     * @param Folder $folder
+     * @return void
+     */
+    private function deleteFolder(Folder $folder)
     {
         foreach ($folder->folders as $sub_folder) {
-            $this->delete_folder($sub_folder);
+            $this->deleteFolder($sub_folder);
         }
         return $folder->delete();
     }

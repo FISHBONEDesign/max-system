@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdminProject;
 use App\Models\Group;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -15,6 +16,11 @@ class ProjectController extends Controller
         $this->authorizeResource(Project::class, 'project');
     }
 
+    /**
+     * 顯示所有project 頁面
+     *
+     * @return void
+     */
     public function index()
     {
         $user = auth()->user();
@@ -29,6 +35,11 @@ class ProjectController extends Controller
         return view('projects.index', compact('user', 'projects'));
     }
 
+    /**
+     * 顯示建立new project 頁面
+     *
+     * @return void
+     */
     public function create()
     {
         $project = new Project();
@@ -36,6 +47,11 @@ class ProjectController extends Controller
         return view('projects.create', ['project' => $project]);
     }
 
+    /**
+     * 儲存new project
+     *
+     * @return void
+     */
     public function store()
     {
         $project = auth()->user()->projects()
@@ -51,25 +67,56 @@ class ProjectController extends Controller
             'admin_id' => auth()->user()->id,
             'edit' => true
         ]);
+        $member = AdminProject::create([
+            'project_id' => $project->id,
+            'admin_id' => auth()->user()->id,
+            'owner' => true,
+            'edit' => true,
+        ]);
+
         return redirect()->route('admin.projects.show', $project);
     }
 
+    /**
+     * 顯示project 頁面
+     *
+     * @param Project $project
+     * @return void
+     */
     public function show(Project $project)
     {
         return redirect()->route('admin.projects.folders.show', $project);
     }
 
+    /**
+     * 顯示編輯project 頁面
+     *
+     * @param Project $project
+     * @return void
+     */
     public function edit(Project $project)
     {
         return view('projects.edit', compact('project'));
     }
 
+    /**
+     * 更新projct 資料
+     *
+     * @param Project $project
+     * @return void
+     */
     public function update(Project $project)
     {
         $project->update(request()->validate(['name' => 'required']));
         return redirect()->route('admin.projects.show', $project);
     }
 
+    /**
+     * 刪除project
+     *
+     * @param Project $project
+     * @return void
+     */
     public function destroy(Project $project)
     {
         $project->folders()->delete();
