@@ -36,6 +36,14 @@ class ProjectTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 ]);
+            DB::table('admin_project')->insert([
+                'project_id' => $i,
+                'admin_id' => $i,
+                'owner' => true,
+                'edit' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+                ]);
         }
     }
 }
