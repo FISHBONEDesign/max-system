@@ -23,6 +23,16 @@ class Project extends Model
         return $this->hasMany(Device::class);
     }
 
+    public function admin()
+    {
+        return $this->belongsToMany(admin::class);
+    }
+
+    public function adminProject()
+    {
+        return $this->hasMany(AdminProject::class);
+    }
+
     public function getContentsAttribute($value)
     {
         return $this->folders->concat($this->devices);
