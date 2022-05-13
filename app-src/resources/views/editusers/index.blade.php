@@ -18,11 +18,14 @@
                                 role: {{ $users->role }}
                             </div>
                             <div class="col-sm-10 mb-4" style="width: 200px;">
-
+                                {{-- {{ dd($roles) }} --}}
                                 <select name="userPermission" id="" class="form-control tags">
-                                    <option value="admin">admin</option>
-                                    <option value="manager">manager</option>
-                                    <option value="user" selected>user</option>
+                                    @foreach ($roles as $r)
+                                    @php
+                                        $selected = $users->role == $r->role ? 'selected' : '';
+                                    @endphp
+                                        <option {{ $selected }} value="{{ $r->role }}">{{ $r->role }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group row">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class AdminPermissionController extends Controller
@@ -16,7 +17,8 @@ class AdminPermissionController extends Controller
     public function index()
     {
         $users = Admin::all();
-        return view('editusers.index', compact('users'));
+        $roles = Role::all();
+        return view('editusers.index', compact('users', 'roles'));
     }
 
     public function update(Admin $users)
@@ -24,6 +26,7 @@ class AdminPermissionController extends Controller
         $users->update([
             'role' => request()->input('userPermission')
         ]);
-        return redirect()->route('admin.users.index', $users);
+        $roles = Role::all();
+        return redirect()->route('admin.users.index', compact('users', 'roles'));
     }
 }
