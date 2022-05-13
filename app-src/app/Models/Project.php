@@ -25,7 +25,7 @@ class Project extends Model
 
     public function admin()
     {
-        return $this->belongsToMany(admin::class);
+        return $this->belongsToMany(Admin::class);
     }
 
     public function adminProject()
@@ -52,4 +52,16 @@ class Project extends Model
             'group_id' => $this->group->id,
         ])->get();
     }
+
+    /**
+     * 判斷使用是否為專案管理員
+     *
+     * @param [type] $value
+     * @return boolean
+     */
+    public function isProjectManager($value)
+    {
+        return $this->adminProject->where('admin_id', $value)->first()->owner;
+    }
+
 }

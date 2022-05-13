@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\AdminProject;
 use App\Models\Member;
 use App\Models\Project;
@@ -31,10 +32,9 @@ class MemberController extends Controller
      */
     public function create(Project $project)
     {
-        // $this->authorize('update', $project);
+        $this->authorize('update', $project);
         $member = new AdminProject();
         $member->project_id = $project->id;
-        dd($member->project_id);
         return view('projectmembers.create', compact('member'));
     }
 
@@ -44,10 +44,10 @@ class MemberController extends Controller
      * @param AdminProject $adminProject
      * @return void
      */
-    public function edit(Project $project, AdminProject $adminProject)
+    public function edit(Project $project, AdminProject $member)
     {
-        // $this->authorize('update', $group);
-        $member = $adminProject;
+        $this->authorize('update', $project);
+        $member = $member;
         return view('projectmembers.edit', compact('member'));
     }
 
@@ -60,7 +60,7 @@ class MemberController extends Controller
      */
     public function store(Project $project, Request $request)
     {
-        // $this->authorize('update', $project);
+        $this->authorize('update', $project);
         $data = $request->validate([
             'admin_id' => 'required|int|exists:admins,id'
         ]);
@@ -82,11 +82,15 @@ class MemberController extends Controller
      * @param AdminProject $adminProject
      * @return void
      */
-    public function update(Project $project, AdminProject $adminProject)
+    public function update(Project $project, AdminProject $member)
     {
-        // $this->authorize('update', $project);
-        $adminProject->update([
-            'edit' => request()->has('editable')
+        $this->authorize('update', $project);
+        $member->where('id', $member->id)->update([
+            'edit' => request()->has('editable'),
+            'owner' => request()->has('editPermission')
+        ]);
+        $member->admin()->where('id', $member->admin_id)->update([
+            'role' => 'manager'
         ]);
         return redirect()->route('admin.projects.show', $project);
     }
@@ -98,10 +102,10 @@ class MemberController extends Controller
      * @param AdminProject $adminProject
      * @return void
      */
-    public function destroy(Project $project, AdminProject $adminProject)
+    public function destroy(Project $project, AdminProject $member)
     {
-        // $this->authorize('update', $project);
-        $adminProject->delete();
+        $this->authorize('update', $project);
+        $member->delete();
         return redirect()->route('admin.projects.show', $project);
     }
 }

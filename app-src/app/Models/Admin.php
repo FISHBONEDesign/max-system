@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 use App\Notifications\AdminResetPasswordNotification;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Admin extends Authenticatable
 {
@@ -62,5 +63,21 @@ class Admin extends Authenticatable
     public function getIsSupervisorAttribute($value)
     {
         return $this->isSupervisor();
+    }
+
+    public function adminProject()
+    {
+        return $this->hasMany(AdminProject::class);
+    }
+
+    /**
+     * 使用者權限是否為admin
+     *
+     * @param [type] $value
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->role == 'admin';
     }
 }

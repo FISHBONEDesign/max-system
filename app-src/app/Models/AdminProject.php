@@ -10,7 +10,7 @@ class AdminProject extends Model
 
     protected $fillable = ['project_id', 'admin_id', 'owner', 'edit'];
 
-    public function user()
+    public function admin()
     {
         return $this->belongsTo(Admin::class, 'admin_id');
     }
@@ -22,6 +22,11 @@ class AdminProject extends Model
 
     public function getNameAttribute($value)
     {
-        return $this->user ? $this->user->name : '';
+        return $this->admin ? $this->admin->name : '';
+    }
+
+    public function getManagerAttribute($value)
+    {
+        return $this->owner ? $this->admin_id : '';
     }
 }
