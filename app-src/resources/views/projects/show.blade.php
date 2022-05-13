@@ -1,8 +1,7 @@
 <div class="card mb-2">
     <div class="card-header">{{ $project->name }} &nbsp;&nbsp;&nbsp;
         @canany(['admin', 'manager'])
-            @if (auth('admin')->user()->id !== $project->owner->id)
-            @else
+            @if (Gate::allows('admin') || $project->isProjectManager(auth('admin')->user()->id))
                 <a href="{{ route('admin.projects.edit', $project) }}" class="text-success">
                     <i class="fas fa-edit"></i>
                 </a>
@@ -22,7 +21,14 @@
     </div>
 
     <div class="card-body">
-        project manager: {{ $project->owner->name }} <br><br>
+        project manager:
+        <br>
+        @foreach ($project->adminProject as $member)
+            @if ($member->owner)
+                {{ $member->name }} ,
+            @endif
+        @endforeach
+        <br><br>
         created at: {{ $project->created_at }} <br>
         updated at: {{ $project->updated_at }} <br>
     </div>

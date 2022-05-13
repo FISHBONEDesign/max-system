@@ -54,12 +54,12 @@
         @endif --}}
 
         {{-- Groups --}}
-        {{-- <p class="list-group-item">Groups</p> --}}
-        {{-- @php
+        {{-- <p class="list-group-item">Users</p> --}}
+        @php
             $isActive = request()->routeIs('admin.groups.*');
         @endphp
-        <a href="{{ route('admin.groups.index') }}"
-            class="list-group-item list-group-item-action @if ($isActive) active @else bg-light @endif">Groups</a> --}}
+        <a href="{{ route('admin.users.index') }}"
+            class="list-group-item list-group-item-action @if ($isActive) active @else bg-light @endif">Users</a>
 
         {{-- <a href="{{ route('admin.projects.devices.index') }}" class="list-group-item list-group-item-action @if (request()->routeIs('admin.manage.devices.*') || request()->routeIs('admin.manage.firmwares.*')) active @else bg-light @endif">Devices & Firmwares</a> --}}
     </div>

@@ -4,7 +4,7 @@
         @method('patch')
     @endif
     <div class="form-group row">
-        <label for="user" class="col-sm-2 col-form-label">Member</label>
+        <label for="user" class="col-sm-2 col-form-label">Member Name:</label>
         <div class="col-sm-10">
             @if ($update)
                 {{ $member->name }}
@@ -31,7 +31,8 @@
         <div class="offset-2 col-sm-2">
             <div class="form-check">
                 @php
-                    $checked = $member->edit === true ? 'checked' : '';
+                    // $checked = $member->edit === true ? 'checked' : '';
+                    $checked = 'checked'
                 @endphp
                 <input class="form-check-input" type="checkbox" name="editable" id="editable" {{ $checked }}>
                 <label class="form-check-label" for="editable">
@@ -43,7 +44,7 @@
     <div class="form-group row">
         <div class="col-sm-10">
             @php
-                $cancel = route('admin.groups.show', $member->group);
+                $cancel = route('admin.projects.show', $member->group);
             @endphp
             <button type="submit" class="btn btn-primary">{{ !$update ? 'Create' : 'Update' }}</button>
             <a href="{{ $cancel }}" class="btn btn-secondary">Cancel</a>

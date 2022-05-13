@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @php
-    dd($member);
     $action = route('admin.member.store', $member->project);
     $update = false;
     $form_parameters = compact('action', 'update', 'member');

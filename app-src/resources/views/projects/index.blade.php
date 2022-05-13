@@ -9,7 +9,14 @@
                 <a href="{{ route('admin.projects.show', $project) }}">
                     <div class="card-header">{{ $project->name }}</div>
                     <div class="card-body">
-                        owner: {{ $project->owner->name }} <br>
+                        project manager:
+                        <br>
+                        @foreach ($project->adminProject as $member)
+                            @if ($member->owner)
+                                {{ $member->name }} ,
+                            @endif
+                        @endforeach
+                        <br><br>
                         created at: {{ $project->created_at }} <br>
                         updated at: {{ $project->updated_at }}
                     </div>
@@ -44,7 +51,14 @@
                     <a href="{{ route('admin.projects.show', $project) }}">
                         <div class="card-header">{{ $project->name }}</div>
                         <div class="card-body">
-                            owner: {{ $project->owner->name }} <br>
+                            project managr:
+                            <br>
+                            @foreach ($project->adminProject as $member)
+                                @if ($member->owner)
+                                    {{ $member->name }} ,
+                                @endif
+                            @endforeach
+                            <br><br>
                             created at: {{ $project->created_at }} <br>
                             updated at: {{ $project->updated_at }}
                         </div>

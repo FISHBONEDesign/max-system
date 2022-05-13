@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header">Edit member permission</div>
+        <div class="card-header">Edit Member Permission</div>
         <div class="card-body">
             @component('projectmembers.form', $form_parameters)
             @endcomponent

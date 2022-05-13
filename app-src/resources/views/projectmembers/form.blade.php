@@ -1,10 +1,9 @@
 <form method="post" action="{{ $action }}">
     @csrf
-    {{-- @if ($update)
+    @if ($update)
         @method('patch')
-    @endif --}}
+    @endif
     <div class="form-group row">
-        {{ dd($member) }}
         <label for="user" class="col-sm-2 col-form-label">Member Name: </label>
         <div class="col-sm-10">
             @if ($update)
@@ -15,7 +14,7 @@
                     @php
                         $oldvalue = old('admin_id', $member->admin_id);
                     @endphp
-                    @foreach (App\Models\Admin::all()->diff($member->project->adminProject->pluck('user')) as $admin)
+                    @foreach (App\Models\Admin::all()->diff($member->project->adminProject->pluck('admin')) as $admin)
                         @php
                             $selected = $oldvalue === $admin->id ? 'selected' : '';
                         @endphp
@@ -30,10 +29,22 @@
     </div>
     <div class="form-group row">
         <div class="offset-2 col-sm-2">
+            @can('admin')
+                <div class="form-check">
+                    @php
+                        $checked = $member->owner === true ? 'checked' : '';
+                        // $checked = 'checked'
+                    @endphp
+                    <input class="form-check-input" type="checkbox" name="editPermission" id="editPermission" {{ $checked }}>
+                    <label class="form-check-label" for="editPermission">
+                        Project Manager
+                    </label>
+                </div>
+            @endcan
             <div class="form-check">
                 @php
                     // $checked = $member->edit === true ? 'checked' : '';
-                    $checked = 'checked'
+                    $checked = 'checked';
                 @endphp
                 <input class="form-check-input" type="checkbox" name="editable" id="editable" {{ $checked }}>
                 <label class="form-check-label" for="editable">
@@ -45,7 +56,7 @@
     <div class="form-group row">
         <div class="col-sm-10">
             @php
-                $cancel = route('admin.projects.show', $member->group);
+                $cancel = route('admin.projects.show', $member->project);
             @endphp
             <button type="submit" class="btn btn-primary">{{ !$update ? 'Create' : 'Update' }}</button>
             <a href="{{ $cancel }}" class="btn btn-secondary">Cancel</a>
