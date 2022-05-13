@@ -58,6 +58,13 @@ Route::prefix('admin')->group(function () {
 
         Route::name('groups')->resource('/groups/{group}/members', 'Group\MemberController');
 
+        Route::resource('{project}/member', 'MemberController');
+
+        Route::prefix('/users')->name('users.')->group(function () {
+            Route::get('/', 'AdminPermissionController@index')->name('index');
+            Route::patch('/{users}/update', 'AdminPermissionController@update')->name('update');
+        });
+
         Route::prefix('/projects')->name('projects.')->group(function () {
             Route::get('/', 'ProjectController@index')->name('index');
             Route::post('/', 'ProjectController@store')->name('store');
