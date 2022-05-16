@@ -8,11 +8,6 @@ class Project extends Model
 {
     protected $fillable = ['name'];
 
-    public function owner()
-    {
-        return $this->belongsTo(Admin::class, 'admin_id');
-    }
-
     public function folders()
     {
         return $this->hasMany(Folder::class);
@@ -38,21 +33,6 @@ class Project extends Model
         return $this->folders->concat($this->devices);
     }
 
-    public function getGroupAttribute($value)
-    {
-        return Group::where([
-            'model_name' => self::class,
-            'model_id' => $this->id
-        ])->first();
-    }
-
-    public function getMemberAttribute($value)
-    {
-        return Member::where([
-            'group_id' => $this->group->id,
-        ])->get();
-    }
-
     /**
      * 判斷使用是否為專案管理員
      *
@@ -64,4 +44,13 @@ class Project extends Model
         return $this->adminProject->where('admin_id', $value)->first()->owner;
     }
 
+    public function hasAdmin(Admin $user)
+    {
+        return !!$this->adminProject->pluck('admin')->pluck('id')->contains($user->id);
+    }
+
+    public function canAdminEdit(Admin $user)
+    {
+        return $this->hasAdmin($user) ? $this->adminProject()->where(['admin_id' => $user->id])->first()->edit : false;
+    }
 }
