@@ -25,7 +25,11 @@
         <br>
         @foreach ($project->adminProject as $member)
             @if ($member->owner)
-                {{ $member->name }} ,
+                {{ $member->name }}
+                @if ($loop->last)
+                @else
+                    ,
+                @endif
             @endif
         @endforeach
         <br><br>

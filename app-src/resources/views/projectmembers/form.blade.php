@@ -18,7 +18,10 @@
                         @php
                             $selected = $oldvalue === $admin->id ? 'selected' : '';
                         @endphp
-                        <option {{ $selected }} value="{{ $admin->id }}">{{ $admin->name }}</option>
+                        @if ($admin->name == 'admin')
+                        @else
+                            <option {{ $selected }} value="{{ $admin->id }}">{{ $admin->name }}</option>
+                        @endif
                     @endforeach
                 </select>
                 @error('admin_id')
@@ -35,7 +38,8 @@
                         $checked = $member->owner === true ? 'checked' : '';
                         // $checked = 'checked'
                     @endphp
-                    <input class="form-check-input" type="checkbox" name="editPermission" id="editPermission" {{ $checked }}>
+                    <input class="form-check-input" type="checkbox" name="editPermission" id="editPermission"
+                        {{ $checked }}>
                     <label class="form-check-label" for="editPermission">
                         Project Manager
                     </label>
@@ -58,7 +62,7 @@
             @php
                 $cancel = route('admin.projects.show', $member->project);
             @endphp
-            <button type="submit" class="btn btn-primary">{{ !$update ? 'Create' : 'Update' }}</button>
+            <button type="submit" class="btn btn-primary">{{ !$update ? 'Add' : 'Update' }}</button>
             <a href="{{ $cancel }}" class="btn btn-secondary">Cancel</a>
         </div>
     </div>

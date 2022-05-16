@@ -1,5 +1,5 @@
 @php
-    $firmware = $project;
+$firmware = $project;
 @endphp
 <form method="post" action="{{ $action }}">
     @csrf
@@ -19,7 +19,11 @@
     <div class="form-group row">
         <div class="col-sm-10">
             <button type="submit" class="btn btn-primary">{{ !$update ? 'Create' : 'Update' }}</button>
-            <a href="{{ route('admin.home') }}" class="btn btn-secondary">Cancel</a>
+            @if ($update)
+                <a href="{{ route('admin.projects.show', $project) }}" class="btn btn-secondary">Cancel</a>
+            @else
+                <a href="{{ route('admin.home') }}" class="btn btn-secondary">Cancel</a>
+            @endif
         </div>
     </div>
 </form>
