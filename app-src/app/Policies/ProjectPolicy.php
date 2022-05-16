@@ -37,7 +37,7 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return $project->group->hasAdmin($user);
+        return $project->hasAdmin($user);
     }
 
     /**
@@ -60,7 +60,7 @@ class ProjectPolicy
      */
     public function update(User $user, Project $project)
     {
-        return $project->group->canAdminEdit($user);
+        return $project->canAdminEdit($user);
     }
 
     /**
@@ -72,7 +72,7 @@ class ProjectPolicy
      */
     public function delete(User $user, Project $project)
     {
-        return $project->group->canAdminEdit($user);
+        return $project->canAdminEdit($user);
     }
 
     /**
