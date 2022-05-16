@@ -29,9 +29,9 @@ class ProjectController extends Controller
         } else {
             $projects = $user->projects;
         };
-        // $projects = Project::all()->filter(function ($project) use ($user) {
-        //     return $user->can('view', $project);
-        // });
+        $projects = Project::all()->filter(function ($project) use ($user) {
+            return $user->can('view', $project);
+        });
         return view('projects.index', compact('user', 'projects'));
     }
 
@@ -58,21 +58,6 @@ class ProjectController extends Controller
             ->create(request()->validate([
                 'name' => 'required'
             ]));
-        $group = Group::create([
-            'name' => 'Group for ' . $project->name,
-            'model_name' => Project::class,
-            'model_id' => $project->id
-        ]);
-        $group->members()->create([
-            'admin_id' => auth()->user()->id,
-            'edit' => true
-        ]);
-        $member = AdminProject::create([
-            'project_id' => $project->id,
-            'admin_id' => auth()->user()->id,
-            'owner' => true,
-            'edit' => true,
-        ]);
 
         return redirect()->route('admin.projects.show', $project);
     }
@@ -120,8 +105,7 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->folders()->delete();
-        $project->group->members()->delete();
-        $project->group->delete();
+        $project->adminProject()->delete();
         $project->delete();
         return redirect()->route('admin.home');
     }
