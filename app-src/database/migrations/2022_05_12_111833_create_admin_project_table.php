@@ -17,7 +17,7 @@ class CreateAdminProjectTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('admin_id');
-            $table->boolean('owner')->default(false);
+            $table->boolean('owner')->default(true);
             $table->boolean('edit')->default(true);
             $table->timestamps();
             $table->foreign('project_id')

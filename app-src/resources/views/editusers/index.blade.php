@@ -12,23 +12,36 @@
                     @if ($users->id == 1)
                     @else
                         <div class="card mb-2">
-                            <div class="card-header">{{ $users->name }}</div>
-                            <div class="card-body">
-                                email: {{ $users->email }} <br>
-                                role: {{ $users->role }}
-                            </div>
-                            <div class="col-sm-10 mb-4" style="width: 200px;">
-                                {{-- {{ dd($roles) }} --}}
-                                <select name="userPermission" id="" class="form-control tags">
-                                    @foreach ($roles as $r)
-                                    @php
-                                        $selected = $users->role == $r->role ? 'selected' : '';
-                                    @endphp
-                                        <option {{ $selected }} value="{{ $r->role }}">{{ $r->role }}</option>
+                            <div class="card-header">Name: {{ $users->name }}</div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">E-mail: {{ $users->email }} </li>
+                                <li class="list-group-item">
+                                    Permission:
+                                    <select name="userPermission" id="" class="form-control tags" style="width: 200px">
+                                        @foreach ($roles as $r)
+                                            @php
+                                                $selected = $users->role == $r->role ? 'selected' : '';
+                                            @endphp
+                                            <option {{ $selected }} value="{{ $r->role }}">{{ $r->role }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    Owned Projects:
+                                    @foreach ($users->adminProject as $p)
+                                        @if ($p->manage)
+                                            {{ $p->manage }}
+                                            @if ($loop->last)
+                                            @else
+                                                ,
+                                            @endif
+                                        @endif
                                     @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group row">
+                                </li>
+                            </ul>
+
+                            <div class="form-group row m-2">
                                 <div class="col-sm-10">
                                     <button type="submit" class="btn btn-primary">Update</button>
                                     <a href="{{ route('admin.home') }}" class="btn btn-secondary">Cancel</a>

@@ -71,6 +71,7 @@ class MemberController extends Controller
             ]);
         }
         $data['edit'] = $request->has('editable');
+        $data['owner'] = false;
         $project->adminProject()->create($data);
         return redirect()->route('admin.projects.show', $project);
     }
