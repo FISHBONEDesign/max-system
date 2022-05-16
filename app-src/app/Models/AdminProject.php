@@ -20,11 +20,23 @@ class AdminProject extends Model
         return $this->belongsTo(Project::class);
     }
 
+    /**
+     * 取得專案成員的名字
+     *
+     * @param [type] $value
+     * @return void
+     */
     public function getNameAttribute($value)
     {
         return $this->admin ? $this->admin->name : '';
     }
 
+    /**
+     * 取得專案管理者的ID
+     *
+     * @param [type] $value
+     * @return void
+     */
     public function getManagerAttribute($value)
     {
         return $this->owner ? $this->admin_id : '';
