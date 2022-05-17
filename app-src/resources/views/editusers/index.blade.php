@@ -29,15 +29,15 @@
                                 </li>
                                 <li class="list-group-item">
                                     Owned Projects:
-                                    @foreach ($users->adminProject as $p)
-                                        @if ($p->manage)
-                                            {{ $p->manage }}
-                                            @if ($loop->last)
-                                            @else
-                                                ,
-                                            @endif
+                                    @forelse ($users->my_projects as $my_project)
+                                        {{ $my_project->project->name }}
+                                        @if ($loop->last)
+                                        @else
+                                            ,
                                         @endif
-                                    @endforeach
+                                        @empty
+                                        no any project
+                                    @endforelse
                                 </li>
                             </ul>
 

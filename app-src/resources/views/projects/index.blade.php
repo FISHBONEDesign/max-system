@@ -6,43 +6,50 @@
         @canany(['admin', 'manager'])
             <a href="{{ route('admin.projects.create') }}" class="btn btn-primary mb-2">Create Project</a>
         @endcanany
+        @forelse ($user->my_projects as $my_project)
+            <div class="card mb-2">
+                <a href="{{ route('admin.projects.show', $my_project->project) }}">
+                    <div class="card-header">{{ $my_project->project->name }}</div>
+                    <div class="card-body">
+                        project manager:
+                        <br>
+                        @foreach ($my_project->project->manager_name as $manager_name)
+                            {{ $manager_name }}
+                            @if ($loop->last)
+                            @else
+                                ,
+                            @endif
+                        @endforeach
+                        <br><br>
+                        created at: {{ $my_project->created_at }} <br>
+                        updated at: {{ $my_project->updated_at }}
+                    </div>
+                </a>
+            </div>
 
-
-        @forelse ($user->projects as $project)
-            @if ($project->isProjectManager($user->id))
-                <div class="card mb-2">
-                    <a href="{{ route('admin.projects.show', $project) }}">
-                        <div class="card-header">{{ $project->name }}</div>
-                        <div class="card-body">
-                            project manager:
-                            <br>
-                            @foreach ($project->adminProject as $member)
-                                @if ($member->owner)
-                                    {{ $member->name }} ,
-                                @endif
-                            @endforeach
-                            <br><br>
-                            created at: {{ $project->created_at }} <br>
-                            updated at: {{ $project->updated_at }}
-                        </div>
-                    </a>
-                </div>
-            @endif
         @empty
             <div class="card-body">No any project found.</div>
         @endforelse
     </div>
     <div class="mb-2">
         <h1 class="text-2xl mb-2">Shared Projects:</h1>
-        {{-- {{ dd($user->shared_projects) }} --}}
-        @forelse ($user->shared_projects as $project)
+        @forelse ($user->shared_projects as $shared_project)
             <div class="card mb-2">
-                <a href="{{ route('admin.projects.show', $project) }}">
-                    <div class="card-header">{{ $project->name }}</div>
+                <a href="{{ route('admin.projects.show', $shared_project->project) }}">
+                    <div class="card-header">{{ $shared_project->project->name }}</div>
                     <div class="card-body">
-                        owner: {{ $project->owner->name }} <br>
-                        created at: {{ $project->created_at }} <br>
-                        updated at: {{ $project->updated_at }}
+                        project manager:
+                        <br>
+                        @foreach ($shared_project->project->manager_name as $manager_name)
+                            {{ $manager_name }}
+                            @if ($loop->last)
+                            @else
+                                ,
+                            @endif
+                        @endforeach
+                        <br><br>
+                        created at: {{ $shared_project->created_at }} <br>
+                        updated at: {{ $shared_project->updated_at }}
                     </div>
                 </a>
             </div>
@@ -58,14 +65,16 @@
                     <a href="{{ route('admin.projects.show', $project) }}">
                         <div class="card-header">{{ $project->name }}</div>
                         <div class="card-body">
-                            project managr:
-                            <br>
-                            @foreach ($project->adminProject as $member)
-                                @if ($member->owner)
-                                    {{ $member->name }} ,
-                                @endif
-                            @endforeach
-                            <br><br>
+                            project manager:
+                        <br>
+                        @foreach ($project->manager_name as $manager_name)
+                            {{ $manager_name }}
+                            @if ($loop->last)
+                            @else
+                                ,
+                            @endif
+                        @endforeach
+                        <br><br>
                             created at: {{ $project->created_at }} <br>
                             updated at: {{ $project->updated_at }}
                         </div>
