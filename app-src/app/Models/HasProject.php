@@ -22,7 +22,7 @@ trait HasProject
      */
     public function getMyProjectsAttribute($value)
     {
-        # code...
+        return $this->adminProject->where('owner', 1)->all();
     }
 
     /**
@@ -33,10 +33,6 @@ trait HasProject
      */
     public function getSharedProjectsAttribute($value)
     {
-        $user = $this;
-
-        return Project::all()->filter(function ($project) use ($user) {
-            return $project->hasAdmin($user);
-        })->diff($this->projects);
+        return $this->adminProject->where('owner', 0)->all();
     }
 }
