@@ -121,4 +121,21 @@ class FirmwareController extends Controller
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $download_name);
         return $response;
     }
+
+    public function classifyFirmwares(Project $project, Device $device, $year)
+    {
+        $this->authorize('view', $project);
+        $firmware = $device->firmwares()->latest()->get();
+        foreach ($firmware as $key => $value) {
+            $release_year = explode('-', $value->release)[0];
+            if ($release_year == $year) {
+                $firmware_release[] = $value;
+            } elseif ($year == 'all') {
+                $firmware_release[] = $value;
+            };
+        };
+        $choose_firmware = $firmware_release;
+
+        return view('firmwares.index', compact('device', 'choose_firmware'));
+    }
 }
