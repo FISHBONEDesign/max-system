@@ -126,6 +126,7 @@ class FirmwareController extends Controller
     {
         $this->authorize('view', $project);
         $firmware = $device->firmwares()->latest()->get();
+        $firmware_release = [];
         foreach ($firmware as $key => $value) {
             $release_year = explode('-', $value->release)[0];
             if ($release_year == $year) {

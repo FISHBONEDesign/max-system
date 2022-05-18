@@ -3,7 +3,7 @@
 @section('content')
     @include('projects.show', ['project' => $device->project])
     @php
-    $firmware_release;
+    $firmware_release = [];
     foreach (
         $device
             ->firmwares()
@@ -186,74 +186,6 @@
                     <li class="list-group-item">no any firmware found.</li>
                 @endforelse
             @endif
-
-
-            {{-- @forelse ($device->firmwares()->latest()->get() as $index => $firmware)
-                <div class="row m-4">
-                    <div class="col-1 text-center">
-                        #{{ $index }}
-                    </div>
-                    <div class="col-1 text-center">
-                        @if (Auth::user()->can('update', $device->project))
-                            <a href="{{ route('admin.projects.firmwares.edit', [$device->project, $firmware]) }}">
-                                {{ $firmware->version }}
-                            </a>
-                        @else
-                            {{ $firmware->version }}
-                        @endif
-                    </div>
-                    <div class="col-2 text-center">
-                        @if (Auth::user()->can('update', $device->project))
-                            <a href="{{ route('admin.projects.firmwares.edit', [$device->project, $firmware]) }}">
-                                {{ $firmware->release }}
-                            </a>
-                        @else
-                            {{ $firmware->release }}
-                        @endif
-                    </div>
-                    <div class="col-2 text-center">
-                        <a href="#" class="text-success" @component('components.collapse-btn-attr', ['target' => 'firmware-' . $firmware->id])  @endcomponent>
-                            <i class="fas fa-file-download"></i>
-                        </a>
-                    </div>
-                    <div class="col-1 text-center">
-                        @if (Auth::user()->can('update', $device->project))
-                            <button type="button" class="text-danger"
-                                onclick="event.preventDefault();if (window.confirm('comfirm to delete this firmware?')) document.getElementById('delete-firmware-{{ $firmware->id }}').submit();console.log();">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                            <form id="delete-firmware-{{ $firmware->id }}" class="d-none" method="post"
-                                action="{{ route('admin.projects.firmwares.destroy', [$device->project, $firmware]) }}">
-                                @csrf
-                                @method('delete')
-                            </form>
-                        @else
-                            <div class="text-secondary">
-                                <i class="fas fa-trash-alt"></i>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-                @component('components.collapse-content', ['id' => 'firmware-' . $firmware->id])
-                    <div class="row ml-4 mb-2">
-                        <div class="col-1">
-                            <a href="{{ route('download.firmware', [$firmware->device->project->name, $firmware->device->name, $firmware->version, 'firmware']) }}"
-                                data-turbolinks="false" class="btn btn-primary">firmware</a>
-                        </div>
-                        <div class="col-sm-4">
-                            @if ($firmware->version_log)
-                                <a href="{{ route('download.firmware', [$firmware->device->project->name, $firmware->device->name, $firmware->version, 'version_log']) }}"
-                                    data-turbolinks="false" class="btn btn-primary">change log</a>
-                            @else
-                                <a class="btn btn-outline-dark">no change log</a>
-                            @endif
-                            <span class="ml-4">checksum: {{ $firmware->checksum }}</span>
-                        </div>
-                    </div>
-                @endcomponent
-            @empty
-                <li class="list-group-item">no any firmware found.</li>
-            @endforelse --}}
         </div>
     </div>
 @endsection
