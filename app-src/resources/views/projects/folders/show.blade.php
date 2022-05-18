@@ -35,8 +35,11 @@ if ($folder && $folder->id !== 0) {
                 @can('update', $folder->project)
                     <a href="{{ route('admin.projects.folders.create', $router_parameters) }}"
                         class="btn btn-sm btn-primary">Add Folder</a>
-                    <a href="{{ route('admin.projects.devices.create', $router_parameters) }}"
-                        class="btn btn-sm btn-primary">Add Device</a>
+                    @if ($folder->replicate()->parent_id !== null)
+                        <a href="{{ route('admin.projects.devices.create', $router_parameters) }}"
+                            class="btn btn-sm btn-primary">Add
+                            Device</a>
+                    @endif
                 @endcan
             </div>
             @foreach ($breadcrumbs as $index => $breadcrumb)
