@@ -99,12 +99,13 @@ Route::prefix('admin')->group(function () {
                 Route::get('/{firmware}/edit', 'FirmwareController@edit')->name('edit');
                 Route::patch('/{firmware}/update', 'FirmwareController@update')->name('update');
                 Route::delete('/{firmware}/destroy', 'FirmwareController@destroy')->name('destroy');
+                Route::get('/{device}/{year}', 'FirmwareController@classifyFirmwares')->name('year');
             });
         });
     });
 });
 
-Route::get('/download/firmwares/{project}/{device}/{version}/{action}', 'FirmwareController@download')->name('download.firmware');
+Route::get('/download/firmwares/{project}/{device}/{version}/{action}', 'FirmwareController@download')->name('download.firmware'); // phpcs:ignore
 
 Route::get('/', function () {
     return view('welcome');

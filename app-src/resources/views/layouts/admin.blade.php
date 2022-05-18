@@ -22,6 +22,11 @@
     {{-- <script src="{{ asset('js/test.js') }}" defer></script> --}}
 
     @yield('head')
+    <style>
+        /* *{
+            border: 1px solid pink;
+        } */
+    </style>
 </head>
 
 <body>
