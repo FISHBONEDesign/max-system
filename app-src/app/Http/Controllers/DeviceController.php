@@ -15,6 +15,13 @@ class DeviceController extends Controller
         return view('devices.index')->with('devices', Device::all());
     }
 
+    /**
+     * 顯示建立新裝置的頁面
+     *
+     * @param Project $project
+     * @param Folder|null $folder
+     * @return void
+     */
     public function create(Project $project, Folder $folder = null)
     {
         $this->authorize('update', $project);
@@ -25,12 +32,26 @@ class DeviceController extends Controller
         return view('devices.create', ['device' => $device]);
     }
 
+    /**
+     * 編輯新裝置頁面
+     *
+     * @param Project $project
+     * @param DEvice $device
+     * @return void
+     */
     public function edit(Project $project, DEvice $device)
     {
         $this->authorize('update', $project);
         return view('devices.edit')->with('device', $device);
     }
 
+    /**
+     * 儲存新裝置
+     *
+     * @param Project $project
+     * @param Request $request
+     * @return void
+     */
     public function store(Project $project, Request $request)
     {
         $this->authorize('update', $project);
@@ -38,10 +59,6 @@ class DeviceController extends Controller
             'name' => ['required'],
             'path' => ['required']
         ]);
-        $old_device = $project->devices()->whereName($data['name'])->first();
-        if ($old_device) {
-            return $this->update($project, $old_device);
-        }
         $data['folder_id'] = $this->path_to_folder($project, $data['path']);
         $device = $project->devices()->create($data);
         return redirect()->route('admin.projects.folders.show', [$device->project, $device->folder]);

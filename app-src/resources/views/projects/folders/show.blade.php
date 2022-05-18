@@ -37,17 +37,18 @@ if ($folder && $folder->id !== 0) {
                         class="btn btn-sm btn-primary">Add Folder</a>
                     @if ($folder->replicate()->parent_id !== null)
                         <a href="{{ route('admin.projects.devices.create', $router_parameters) }}"
-                            class="btn btn-sm btn-primary">Add
-                            Device</a>
+                            class="btn btn-sm btn-primary">Add Device</a>
                     @endif
                 @endcan
             </div>
-            @foreach ($breadcrumbs as $index => $breadcrumb)
-                <a {{ $breadcrumb->href ? "href={$breadcrumb->href}" : '' }}>{{ $breadcrumb->name }}</a>
-                @if (!$loop->last)
-                    >
-                @endif
-            @endforeach
+            <div class="m-2">
+                @foreach ($breadcrumbs as $index => $breadcrumb)
+                    <a {{ $breadcrumb->href ? "href={$breadcrumb->href}" : '' }}>{{ $breadcrumb->name }}</a>
+                    @if (!$loop->last)
+                        >
+                    @endif
+                @endforeach
+            </div>
             <ul class="list-group">
                 @forelse ($folder->contents as $content)
                     <li class="list-group-item">
