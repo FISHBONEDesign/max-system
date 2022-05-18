@@ -35,11 +35,12 @@
                 </button>
                 <div class="dropdown-menu">
                     @foreach ($release_years as $index => $year)
-                    <a class="dropdown-item"
-                    href="{{ route('admin.projects.firmwares.year', [$device->project, $device, $year]) }}">{{ $year }}</a>
+                        <a class="dropdown-item"
+                            href="{{ route('admin.projects.firmwares.year', [$device->project, $device, $year]) }}">{{ $year }}</a>
                     @endforeach
                     <a class="dropdown-item"
-                            href="{{ route('admin.projects.firmwares.year', [$device->project, $device, 'all']) }}">show all</a>
+                        href="{{ route('admin.projects.firmwares.year', [$device->project, $device, 'all']) }}">show
+                        all</a>
                 </div>
             </div>
         </div>
@@ -183,7 +184,11 @@
                         </div>
                     @endcomponent
                 @empty
-                    <li class="list-group-item">no any firmware found.</li>
+                    <div class="row mt-5 mb-5">
+                        <div class="col-6 text-center">
+                            <p>no any firmware found.</p>
+                        </div>
+                    </div>
                 @endforelse
             @endif
         </div>
