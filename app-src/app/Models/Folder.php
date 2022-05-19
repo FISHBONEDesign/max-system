@@ -50,7 +50,7 @@ class Folder extends Model
         return $this->folders->map(function ($folder) {
             $folder->type = 'folder';
             return $folder;
-        })->concat($this->devices->map(function ($device) {
+        })->concat($this->devices->where('project_id', $this->project_id)->map(function ($device) {
             $device->type = 'device';
             return $device;
         }));

@@ -35,10 +35,16 @@ if ($folder && $folder->id !== 0) {
                 @can('update', $folder->project)
                     <a href="{{ route('admin.projects.folders.create', $router_parameters) }}"
                         class="btn btn-sm btn-primary">Add Folder</a>
+<<<<<<< HEAD
                     @if ($folder->replicate()->parent_id !== null)
                         <a href="{{ route('admin.projects.devices.create', $router_parameters) }}"
                             class="btn btn-sm btn-primary">Add Device</a>
                     @endif
+=======
+                    <a href="{{ route('admin.projects.devices.create', $router_parameters) }}"
+                        class="btn btn-sm btn-primary">Add
+                        Device</a>
+>>>>>>> feature/fix_device_in_base_folder
                 @endcan
             </div>
             <div class="m-2">
