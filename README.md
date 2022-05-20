@@ -30,7 +30,7 @@
    php artisan db:seed
    ```
 
-## 上線前環境設定
+## 上線環境設定
 
 1. 安裝 compsoer 排除 dev 項目
 
