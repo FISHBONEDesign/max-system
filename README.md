@@ -5,7 +5,7 @@
 1. 安裝 composer 依賴套件
 
    ```bash
-   composer instal
+   composer install
    ```
 
 2. 設定.env
@@ -54,7 +54,7 @@ APP_URL=https://正式網址
 php artisan config:cache
 
 #　下次更新程式記得更新config
-php aritsan confit:clear
+php aritsan config:clear
 ```
 
 4. Router 快取
@@ -63,7 +63,7 @@ php aritsan confit:clear
 php artisan route:cache
 
 # 下次更新程式記得更新route
-php aritsan route:cllear
+php aritsan route:clear
 php artisan cache:clear
 ```
 
@@ -71,7 +71,7 @@ php artisan cache:clear
 
 ```bash
 composer dumpautoload -o
-# 每次更新compsoer install 後，都要在執行一次
+# 每次更新compsoer install 後，都要再執行一次
 ```
 
 6. 類別緩存
@@ -107,7 +107,7 @@ php artisan db:seed
 - 清除快取
 
 ```bash
-php artisan comfig:clear
+php artisan config:clear
 ```
 
 - migrate 指令
@@ -121,5 +121,5 @@ php artisan migrate:rollback --step=5
 php artisan migrate:refresh
 
 # 重置所有migration，並填充資料
-php artisan migrate:refresh
+php artisan migrate:refresh --seed
 ```
