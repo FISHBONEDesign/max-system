@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DropProjectsTableAdminIdColumn extends Migration
+class DropGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class DropProjectsTableAdminIdColumn extends Migration
      */
     public function up()
     {
-        if (Schema::hasColumn('projects', 'admin_id')) {
-            Schema::table('projects', function (Blueprint $table) {
-                $table->dropForeign('projects_admin_id_foreign');
-                $table->dropColumn('admin_id');
-            });
-        }
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('groups');
     }
 
     /**
