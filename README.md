@@ -54,16 +54,16 @@ APP_URL=https://正式網址
 php artisan config:cache
 
 #　下次更新程式記得更新config
-php aritsan config:clear
+php artisan config:clear
 ```
 
-4. Router 快取
+4. Router 快取 (Unable to prepare route [api/user] for serialization. Uses Closure.  )
 
 ```bash
 php artisan route:cache
 
 # 下次更新程式記得更新route
-php aritsan route:clear
+php artisan route:clear
 php artisan cache:clear
 ```
 
@@ -74,10 +74,10 @@ composer dumpautoload -o
 # 每次更新compsoer install 後，都要再執行一次
 ```
 
-6. 類別緩存
+6. 類別緩存 (Unable to prepare route [api/user] for serialization. Uses Closure.  )
 
 ```bash
-php artisan optimize --force
+php artisan optimize
 ```
 
 7. 清除類別緩存
