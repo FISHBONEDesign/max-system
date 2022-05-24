@@ -47,8 +47,10 @@ class FirmwareController extends Controller
         }
         $driver = 'public';
         $storage_path = 'firmwares/' . $device->name . '/' . request()->version;
-        if (request()->version_log) $validated['version_log'] = request()->version_log->store($storage_path, $driver);
-        $validated['path'] = request()->firmwareFile->store($storage_path, $driver);
+        if (request()->version_log) {
+            $validated['version_log'] = request()->version_log->store($storage_path);
+        };
+        $validated['path'] = request()->firmwareFile->store($storage_path);
         $firmware_obj = $device->firmwares()->create($validated);
         return redirect()->route('admin.projects.firmwares.list', [$device->project, $device]);
     }
@@ -108,12 +110,13 @@ class FirmwareController extends Controller
         if ($action === 'firmware' && $firmware->path) {
             $ext = pathinfo($firmware->path)['extension'];
             $download_name = $file_prefix . '.' . $ext;
-            $response = Storage::disk('public')->path($firmware->path);
+            // dd('i am here');
+            $response = Storage::path($firmware->path);
         }
         if ($action === 'version_log' && $firmware->version_log) {
             $ext = pathinfo($firmware->version_log)['extension'];
             $download_name = $file_prefix . '-change-log' . '.' . $ext;
-            $response = Storage::disk('public')->path($firmware->version_log);
+            $response = Storage::path($firmware->version_log);
         }
         if ($response === null) abort(404);
         $response = new BinaryFileResponse($response);
