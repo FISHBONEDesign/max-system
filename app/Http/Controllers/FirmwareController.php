@@ -47,9 +47,7 @@ class FirmwareController extends Controller
         }
         $driver = 'public';
         $storage_path = 'firmwares/' . $device->name . '/' . request()->version;
-        if (request()->version_log) {
-            $validated['version_log'] = request()->version_log->store($storage_path);
-        };
+        if (request()->version_log) $validated['version_log'] = request()->version_log->store($storage_path);
         $validated['path'] = request()->firmwareFile->store($storage_path);
         $firmware_obj = $device->firmwares()->create($validated);
         return redirect()->route('admin.projects.firmwares.list', [$device->project, $device]);
