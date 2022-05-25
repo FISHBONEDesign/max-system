@@ -1,3 +1,5 @@
+<h1 class="text-2xl mb-2">Project Member</h1>
+
 @canany(['manager', 'admin'])
     @if (Gate::allows('admin') || $project->isProjectManager(auth('admin')->user()->id))
         <a href="{{ route('admin.member.create', $project->id) }}" class="btn btn-primary mb-2">Add

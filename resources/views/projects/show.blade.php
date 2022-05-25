@@ -1,3 +1,4 @@
+<h1 class="text-2xl mb-2">Project Name</h1>
 <div class="card mb-2">
     <div class="card-header">{{ $project->name }} &nbsp;&nbsp;&nbsp;
         @canany(['admin', 'manager'])

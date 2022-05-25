@@ -23,7 +23,7 @@ if ($folder && $folder->id !== 0) {
 
 @section('content')
     {{-- 專案名稱 --}}
-    <h1 class="text-2xl mb-2">Project Name</h1>
+
     @include('projects.show')
 
     {{-- 專案內容 --}}
@@ -109,6 +109,6 @@ if ($folder && $folder->id !== 0) {
     </div>
 
     {{-- 專案成員 --}}
-    <h1 class="text-2xl mb-2">Project Member</h1>
+
     @include('projects.member')
 @endsection

@@ -16,6 +16,7 @@
     $release_years = array_unique($firmware_release);
     $release_year ?? '';
     @endphp
+    <h1 class="text-2xl mb-2"> {{ $device->name }} Firmwares</h1>
     <div class="mb-2">
         <a href="{{ route('admin.projects.folders.show', [$device->project, $device->folder]) }}"
             class="btn btn-outline-dark">{{ '< Back' }}</a>
@@ -24,34 +25,34 @@
                 New Firmware
             </a>
         @endcan
+        <div class="btn-group m-1" style="width: 100px">
+            <button class="btn btn-secondary btn dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Select By Years
+            </button>
+            <div class="dropdown-menu">
+                @foreach ($release_years as $index => $year)
+                    <a class="dropdown-item"
+                        href="{{ route('admin.projects.firmwares.year', [$device->project, $device, $year]) }}">{{ $year }}</a>
+                @endforeach
+                <a class="dropdown-item"
+                    href="{{ route('admin.projects.firmwares.year', [$device->project, $device, 'all']) }}">show
+                    all</a>
+            </div>
+        </div>
     </div>
     <div class="card">
         <div class="card-header">
-            {{ $device->name }} Firmwares
-            <div class="btn-group ml-3">
-                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    years
-                </button>
-                <div class="dropdown-menu">
-                    @foreach ($release_years as $index => $year)
-                        <a class="dropdown-item"
-                            href="{{ route('admin.projects.firmwares.year', [$device->project, $device, $year]) }}">{{ $year }}</a>
-                    @endforeach
-                    <a class="dropdown-item"
-                        href="{{ route('admin.projects.firmwares.year', [$device->project, $device, 'all']) }}">show
-                        all</a>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row m-4">
+            <div class="row ml-2">
                 <div class="col-1 font-weight-bold text-center">#</div>
                 <div class="col-1 font-weight-bold text-center">version</div>
                 <div class="col-2 font-weight-bold text-center">release at</div>
                 <div class="col-2 font-weight-bold text-center">download</div>
                 <div class="col-1 font-weight-bold text-center">delete</div>
             </div>
+        </div>
+        <div class="container">
+
             @if ($choose_firmware ?? '')
                 @forelse ($choose_firmware as $index => $firmware)
                     <div class="row m-4">
