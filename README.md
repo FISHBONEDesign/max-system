@@ -4,31 +4,31 @@
 
 1. 安裝 composer 依賴套件
 
-   ```bash
-   composer install
-   ```
+    ```bash
+    composer install
+    ```
 
 2. 設定.env
    將.env.example 複製成 .env 並修改與資料庫連線
 
 3. 設定加密的 APP_KEY
 
-   ```bash=
-   php artisan key:generate
-   ```
+    ```bash=
+    php artisan key:generate
+    ```
 
 4. 設定資料庫
    在 MySQL 新增資料庫
 
 5. Migration 和 Seeding 建立資料表結構
 
-   ```bash
-   # 遷移資料表
-   php artisan migrate
+    ```bash
+    # 遷移資料表
+    php artisan migrate
 
-   # 填充測試資料
-   php artisan db:seed
-   ```
+    # 填充測試資料
+    php artisan db:seed
+    ```
 
 ## 上線環境設定
 
@@ -57,42 +57,20 @@ php artisan config:cache
 php artisan config:clear
 ```
 
-4. Router 快取 (Unable to prepare route [api/user] for serialization. Uses Closure.  )
-
-```bash
-php artisan route:cache
-
-# 下次更新程式記得更新route
-php artisan route:clear
-php artisan cache:clear
-```
-
-5. Composer 緩存
+4. Composer 緩存
 
 ```bash
 composer dumpautoload -o
 # 每次更新compsoer install 後，都要再執行一次
 ```
 
-6. 類別緩存 (Unable to prepare route [api/user] for serialization. Uses Closure.  )
-
-```bash
-php artisan optimize
-```
-
-7. 清除類別緩存
-
-```bash
-php artisan clear-compiled
-```
-
-8. 建立 keygen
+5. 建立 keygen
 
 ```bash
 php artisan key:generate
 ```
 
-9. 執行
+6. 執行
 
 ```bash
 # 遷移資料表
@@ -104,13 +82,13 @@ php artisan db:seed
 
 ## 障礙排除
 
-- 清除快取
+-   清除快取
 
 ```bash
 php artisan config:clear
 ```
 
-- migrate 指令
+-   migrate 指令
 
 ```bash
 # 還原 --steph 此參數為後退多少版本
